@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Diego × Baja — A Field Guide to Festivals, Music & Events</title>
+<meta name="description" content="Every festival, concert, neighborhood block party, wine country harvest, and holiday market worth the drive across San Diego and Baja California — April 2026 through January 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,900;1,9..144,600&family=DM+Sans:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+  :root {
+    --stucco: #F5EBD0; --stucco-2: #EEDDB8;
+    --terracotta: #C75B3A; --terracotta-deep: #9E3E22;
+    --adobe: #D87D5B; --pink: #E65A7A; --pink-deep: #B93656;
+    --cobalt: #1E5F8B; --cobalt-deep: #0D3E5E;
+    --sun: #F4A84C; --mustard: #E4B84A;
+    --olive: #7BA05B; --vine: #4F7340;
+    --ink: #2B1810; --ink-soft: #5B4230; --ink-quiet: #8F7458;
+    --shadow: rgba(43, 24, 16, 0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--stucco); color: var(--ink); font-family: 'DM Sans', -apple-system, sans-serif; line-height: 1.6; overflow-x: hidden; }
+
+  .tile-band { height: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg width='56' height='28' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='56' height='28' fill='%23F5EBD0'/%3E%3Cg fill='%231E5F8B'%3E%3Cpath d='M14 4 L24 14 L14 24 L4 14 Z'/%3E%3Cpath d='M42 4 L52 14 L42 24 L32 14 Z' fill='%23E65A7A'/%3E%3C/g%3E%3Ccircle cx='14' cy='14' r='3' fill='%23F5EBD0'/%3E%3Ccircle cx='42' cy='14' r='3' fill='%23F5EBD0'/%3E%3Cpath d='M28 2 L28 26' stroke='%23C75B3A' stroke-width='1.5' stroke-dasharray='3 2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x; background-size: auto 100%; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 92vh; display: grid; grid-template-columns: 1.1fr 0.9fr; overflow: hidden; }
+  .hero-left { background: var(--stucco); padding: 64px 48px 80px 64px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
+  .hero-right { background: linear-gradient(180deg, var(--sun) 0%, var(--terracotta) 55%, var(--pink-deep) 100%); position: relative; overflow: hidden; }
+  .hero-arch { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
+  .hero-arch svg { width: 82%; height: auto; }
+  .hero-shadow-block { position: absolute; bottom: 0; left: 0; width: 40%; height: 46%; background: var(--cobalt); transform: skewY(-3deg) translateY(8%); transform-origin: bottom left; z-index: 1; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--terracotta-deep); margin-bottom: 28px; }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 24px; height: 2px; background: var(--terracotta-deep); }
+  .hero-title { font-family: 'Fraunces', serif; font-variation-settings: "opsz" 144; font-weight: 900; font-size: clamp(64px, 10vw, 156px); line-height: 0.86; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 8px; }
+  .hero-title .word-1 { display: block; color: var(--terracotta-deep); }
+  .hero-title .word-2 { display: block; font-style: italic; font-weight: 600; color: var(--cobalt); padding-left: 1.2em; font-size: 0.78em; }
+  .hero-title .word-3 { display: block; color: var(--ink); }
+  .hero-amp { display: inline-block; font-family: 'Caveat', cursive; font-weight: 700; color: var(--pink); font-size: 0.9em; transform: translateY(-0.15em) rotate(-6deg); padding: 0 0.1em; }
+  .hero-rule { width: 160px; height: 6px; background: var(--pink); margin: 28px 0; box-shadow: 6px 6px 0 var(--cobalt); }
+  .hero-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(17px, 1.6vw, 22px); line-height: 1.4; color: var(--ink-soft); max-width: 540px; margin-bottom: 40px; }
+  .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+  .stat { border-left: 4px solid var(--terracotta); padding-left: 14px; }
+  .stat-num { font-family: 'Fraunces', serif; font-weight: 900; font-size: 38px; line-height: 1; color: var(--ink); display: block; }
+  .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-quiet); margin-top: 6px; }
+  .hero-note { position: absolute; top: 80px; right: 40px; font-family: 'Caveat', cursive; font-size: 24px; color: var(--stucco); transform: rotate(6deg); z-index: 3; text-align: right; line-height: 1.2; }
+  .hero-sun { position: absolute; top: 22%; right: 15%; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FEEFC4 0%, var(--mustard) 60%, var(--terracotta) 100%); box-shadow: 0 0 80px rgba(253, 209, 120, 0.5); z-index: 0; }
+
+  /* STICKY NAV */
+  .sticky-nav { position: sticky; top: 0; z-index: 40; background: var(--stucco); border-bottom: 1px solid rgba(43, 24, 16, 0.12); box-shadow: 0 2px 0 var(--terracotta); }
+  .filter-strip { max-width: 1400px; margin: 0 auto; padding: 18px 32px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .filter-label { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-quiet); margin-right: 6px; }
+  .chip { padding: 8px 16px; border: 1.5px solid rgba(43, 24, 16, 0.18); background: transparent; color: var(--ink); font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; border-radius: 2px; }
+  .chip:hover { border-color: var(--terracotta); color: var(--terracotta-deep); }
+  .chip.active { background: var(--ink); border-color: var(--ink); color: var(--stucco); box-shadow: 4px 4px 0 var(--pink); }
+  .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot.sd { background: var(--cobalt); } .dot.nc { background: var(--sun); }
+  .dot.tj { background: var(--pink); } .dot.ros { background: var(--terracotta); }
+  .dot.ens { background: var(--pink-deep); } .dot.valle { background: var(--olive); }
+  .dot.tec, .dot.pn { background: var(--adobe); }
+
+  /* SECTION */
+  .section { max-width: 1400px; margin: 0 auto; padding: 80px 32px; }
+  .section-head { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 32px; margin-bottom: 48px; padding-bottom: 20px; border-bottom: 1px solid rgba(43,24,16,0.18); }
+  .section-number { font-family: 'Fraunces', serif; font-weight: 900; font-size: 120px; line-height: 0.8; color: var(--terracotta); opacity: 0.22; letter-spacing: -0.05em; }
+  .section-heading-group { padding-bottom: 12px; }
+  .section-kicker { font-family: 'Caveat', cursive; font-size: 24px; color: var(--pink); margin-bottom: 4px; display: block; }
+  .section-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); letter-spacing: -0.02em; line-height: 1; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--terracotta-deep); font-weight: 900; }
+  .section-bilingual { margin-top: 12px; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-quiet); }
+
+  /* MAP */
+  .map-wrap { background: var(--stucco-2); padding: 70px 32px; position: relative; }
+  #leaflet-map { max-width: 1100px; margin: 0 auto; height: 560px; border-radius: 6px; box-shadow: 0 24px 48px var(--shadow), inset 0 0 0 1px rgba(43, 24, 16, 0.1); }
+  .map-legend { max-width: 1100px; margin: 20px auto 0; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-size: 12px; color: var(--ink-soft); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* COUNTDOWN / COMING UP */
+  .featured { background: var(--cobalt); color: var(--stucco); padding: 70px 32px; }
+  .featured .section { padding: 0; }
+  .featured .section-head { border-color: rgba(245, 235, 208, 0.3); }
+  .featured .section-number { color: var(--sun); opacity: 0.3; }
+  .featured .section-kicker { color: var(--sun); }
+  .featured .section-title { color: var(--stucco); }
+  .featured .section-title em { color: var(--pink); }
+  .featured .section-bilingual { color: rgba(245, 235, 208, 0.7); }
+  .countdown-row { display: flex; align-items: center; gap: 20px; background: var(--stucco); color: var(--ink); padding: 20px 28px; margin-bottom: 36px; border-radius: 3px; max-width: 760px; }
+  .countdown-num { font-family: 'Fraunces', serif; font-weight: 900; font-size: 56px; line-height: 0.9; color: var(--terracotta-deep); }
+  .countdown-text .days { font-size: 11px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-quiet); }
+  .countdown-text .event { font-family: 'Fraunces', serif; font-weight: 600; font-style: italic; font-size: 22px; color: var(--ink); line-height: 1.1; margin-top: 2px; }
+  .countdown-text .date-line { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* EVENT GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 32px; }
+  .event-card { background: #FFF8E5; border-radius: 2px; overflow: hidden; position: relative; box-shadow: 0 1px 0 rgba(43, 24, 16, 0.1), 12px 12px 0 -4px var(--shadow); transition: transform 0.25s ease, box-shadow 0.25s ease; display: flex; flex-direction: column; }
+  .event-card:hover { transform: translate(-4px, -4px); box-shadow: 16px 16px 0 -4px var(--shadow); }
+  .card-band { height: 14px; width: 100%; background: var(--terracotta); }
+  .card-band.sd { background: var(--cobalt); } .card-band.nc { background: var(--sun); }
+  .card-band.tj { background: var(--pink); } .card-band.ros { background: var(--terracotta); }
+  .card-band.ens { background: var(--pink-deep); } .card-band.valle { background: var(--olive); }
+  .card-band.tec, .card-band.pn { background: var(--adobe); }
+  .card-body { padding: 26px 28px 24px; position: relative; flex: 1; display: flex; flex-direction: column; }
+  .card-region { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terracotta-deep); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .card-region .stamp { display: inline-block; border: 1.5px solid var(--terracotta-deep); padding: 2px 6px; border-radius: 2px; font-size: 9px; }
+  .card-region .anchor-badge { background: var(--sun); color: var(--ink); padding: 2px 8px; border-radius: 2px; font-size: 9px; }
+  .card-region .recurring-badge { background: var(--olive); color: var(--stucco); padding: 2px 8px; border-radius: 2px; font-size: 9px; }
+  .card-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: 28px; line-height: 1.05; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 6px; }
+  .card-title em { font-style: italic; font-weight: 600; color: var(--terracotta-deep); }
+  .card-date-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 10px 0; border-top: 1px solid rgba(43, 24, 16, 0.12); border-bottom: 1px solid rgba(43, 24, 16, 0.12); }
+  .card-date-chip { background: var(--ink); color: var(--stucco); font-family: 'Fraunces', serif; font-weight: 900; padding: 6px 12px; font-size: 13px; letter-spacing: 0.04em; line-height: 1; white-space: nowrap; }
+  .card-venue { font-size: 12px; color: var(--ink-soft); line-height: 1.3; }
+  .card-venue strong { display: block; font-weight: 700; color: var(--ink); font-size: 13px; }
+  .card-blurb { font-family: 'Fraunces', serif; font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin-bottom: 20px; flex: 1; }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 4px 10px; background: var(--stucco-2); color: var(--ink); border-radius: 100px; }
+  .tag.music { background: #F5D2DD; color: var(--pink-deep); }
+  .tag.food { background: #F9D5BB; color: var(--terracotta-deep); }
+  .tag.art { background: #CCE1EE; color: var(--cobalt-deep); }
+  .tag.cultural { background: #F6E4B8; color: #865918; }
+  .tag.holiday { background: #F3C4CC; color: var(--pink-deep); }
+  .tag.wine { background: #D8E7C7; color: var(--vine); }
+  .tag.neighborhood { background: var(--stucco-2); color: var(--ink); }
+  .tag.festival { background: #F4B8C6; color: var(--pink-deep); }
+  .tag.parade { background: #E8D5F0; color: #5a2a7a; }
+  .tag.free { background: #D8E7C7; color: var(--vine); }
+  .tag.recurring { background: #EADFC7; color: var(--ink-quiet); }
+  .card-link { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cobalt); text-decoration: none; border-bottom: 2px solid var(--cobalt); padding-bottom: 2px; }
+  .card-link:hover { color: var(--terracotta-deep); border-color: var(--terracotta-deep); }
+  .mx-stamp { position: absolute; top: 20px; right: 22px; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--pink-deep); border: 2px solid var(--pink-deep); padding: 4px 8px; border-radius: 3px; transform: rotate(8deg); opacity: 0.85; background: rgba(255, 248, 229, 0.8); }
+
+  /* REGION BANNERS */
+  .region-banner { display: flex; align-items: center; gap: 20px; padding: 0; margin-bottom: 12px; }
+  .region-color-block { width: 60px; height: 60px; flex-shrink: 0; box-shadow: 6px 6px 0 rgba(43,24,16,0.15); }
+  .region-name { font-family: 'Fraunces', serif; font-weight: 900; font-style: italic; font-size: 44px; color: var(--ink); letter-spacing: -0.02em; }
+
+  /* RESULTS COUNT */
+  .results-count { font-family: 'Caveat', cursive; font-size: 22px; color: var(--pink); text-align: center; margin-bottom: 24px; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: var(--stucco); padding: 70px 32px 50px; text-align: center; position: relative; }
+  footer::before { content: ""; display: block; height: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg width='56' height='28' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='56' height='28' fill='%232B1810'/%3E%3Cg fill='%23F4A84C'%3E%3Cpath d='M14 4 L24 14 L14 24 L4 14 Z'/%3E%3Cpath d='M42 4 L52 14 L42 24 L32 14 Z' fill='%23E65A7A'/%3E%3C/g%3E%3Ccircle cx='14' cy='14' r='3' fill='%232B1810'/%3E%3Ccircle cx='42' cy='14' r='3' fill='%232B1810'/%3E%3Cpath d='M28 2 L28 26' stroke='%23C75B3A' stroke-width='1.5' stroke-dasharray='3 2'/%3E%3C/svg%3E");
+    position: absolute; top: 0; left: 0; right: 0; }
+  .footer-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: 48px; letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; }
+  .footer-title em { font-style: italic; color: var(--pink); }
+  .footer-tagline { font-family: 'Caveat', cursive; font-size: 24px; color: var(--sun); margin-bottom: 28px; }
+  .footer-meta { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(245, 235, 208, 0.55); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { min-height: 280px; } .hero-left { padding: 52px 28px; }
+    .hero-note { display: none; }
+    .section { padding: 60px 20px; } .grid { grid-template-columns: 1fr; }
+    .section-head { grid-template-columns: 1fr; gap: 8px; }
+    .section-number { font-size: 72px; } .region-name { font-size: 32px; }
+    .filter-strip { padding: 14px 16px; }
+  }
+
+  /* Leaflet marker customization */
+  .leaflet-pin { width: 24px; height: 24px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+  .leaflet-popup-content-wrapper { border-radius: 2px; }
+  .leaflet-popup-content { font-family: 'DM Sans', sans-serif; font-size: 13px; }
+  .leaflet-popup-content strong { font-family: 'Fraunces', serif; font-weight: 700; font-size: 15px; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">A Field Guide to the Region</div>
+    <h1 class="hero-title">
+      <span class="word-1">San Diego</span>
+      <span class="word-2"><span class="hero-amp">&amp;</span> Baja</span>
+      <span class="word-3">California</span>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Every festival, concert, neighborhood block party, wine country harvest, and holiday market worth the drive — from the North Park sidewalks to the Valle de Guadalupe vineyards.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="stat-events">—</span><span class="stat-label">Events</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Regions</span></div>
+      <div class="stat"><span class="stat-num">2</span><span class="stat-label">Countries</span></div>
+      <div class="stat"><span class="stat-num">9</span><span class="stat-label">Months</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-sun"></div>
+    <div class="hero-shadow-block"></div>
+    <div class="hero-arch">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax meet">
+        <defs><linearGradient id="arch-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5EBD0" stop-opacity="0"/><stop offset="60%" stop-color="#F5EBD0" stop-opacity="0.25"/><stop offset="100%" stop-color="#F5EBD0" stop-opacity="0.55"/></linearGradient></defs>
+        <path d="M80 500 L80 220 Q 80 80, 200 80 Q 320 80, 320 220 L320 500 Z" fill="url(#arch-fill)"/>
+        <path d="M140 500 L140 240 Q 140 140, 200 140 Q 260 140, 260 240 L260 500 Z" fill="#C75B3A" opacity="0.55"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY FILTERS -->
+<nav class="sticky-nav">
+  <div class="filter-strip" id="region-filters">
+    <span class="filter-label">Region</span>
+    <button class="chip active" data-region="all">All</button>
+    <button class="chip" data-region="sd"><span class="dot sd"></span>San Diego</button>
+    <button class="chip" data-region="nc"><span class="dot nc"></span>North County</button>
+    <button class="chip" data-region="tj"><span class="dot tj"></span>Tijuana</button>
+    <button class="chip" data-region="ros"><span class="dot ros"></span>Rosarito</button>
+    <button class="chip" data-region="ens"><span class="dot ens"></span>Ensenada</button>
+    <button class="chip" data-region="valle"><span class="dot valle"></span>Valle de Guadalupe</button>
+    <button class="chip" data-region="tec"><span class="dot tec"></span>Tecate / Puerto Nuevo</button>
+  </div>
+  <div class="tile-band"></div>
+  <div class="filter-strip" id="type-filters" style="padding-top: 14px;">
+    <span class="filter-label">Type</span>
+    <button class="chip active" data-type="all">All</button>
+    <button class="chip" data-type="music">Music</button>
+    <button class="chip" data-type="festival">Festival</button>
+    <button class="chip" data-type="food">Food</button>
+    <button class="chip" data-type="wine">Wine</button>
+    <button class="chip" data-type="art">Art</button>
+    <button class="chip" data-type="cultural">Cultural</button>
+    <button class="chip" data-type="holiday">Holiday</button>
+    <button class="chip" data-type="neighborhood">Neighborhood</button>
+    <button class="chip" data-type="free">Free</button>
+  </div>
+  <div class="filter-strip" id="month-filters" style="padding-top: 0; padding-bottom: 18px;">
+    <span class="filter-label">Month</span>
+    <button class="chip active" data-month="all">All</button>
+    <button class="chip" data-month="2026-04">Apr '26</button>
+    <button class="chip" data-month="2026-05">May '26</button>
+    <button class="chip" data-month="2026-06">Jun '26</button>
+    <button class="chip" data-month="2026-07">Jul '26</button>
+    <button class="chip" data-month="2026-08">Aug '26</button>
+    <button class="chip" data-month="2026-09">Sep '26</button>
+    <button class="chip" data-month="2026-10">Oct '26</button>
+    <button class="chip" data-month="2026-11">Nov '26</button>
+    <button class="chip" data-month="2026-12">Dec '26</button>
+    <button class="chip" data-month="2027-01">Jan '27</button>
+  </div>
+</nav>
+
+<!-- MAP -->
+<section class="map-wrap">
+  <div class="section" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="section-head">
+      <div class="section-number">01</div>
+      <div class="section-heading-group">
+        <span class="section-kicker">el mapa</span>
+        <h2 class="section-title">The <em>Region</em>, Plotted</h2>
+        <div class="section-bilingual">From La Jolla to the Valle de Guadalupe</div>
+      </div>
+    </div>
+    <div id="leaflet-map"></div>
+    <div class="map-legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--cobalt)"></span> San Diego</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--sun)"></span> North County</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--pink)"></span> Tijuana</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--terracotta)"></span> Rosarito</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--pink-deep)"></span> Ensenada</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--olive)"></span> Valle de Guadalupe</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMING UP -->
+<section class="featured">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-number">02</div>
+      <div class="section-heading-group">
+        <span class="section-kicker">próximamente</span>
+        <h2 class="section-title">Coming <em>Up</em> Next</h2>
+        <div class="section-bilingual">The next events on both sides of the line</div>
+      </div>
+    </div>
+    <div id="countdown-container"></div>
+    <div class="grid" id="coming-up-grid"></div>
+  </div>
+</section>
+
+<!-- ALL EVENTS -->
+<section class="section" id="all-events-section">
+  <div class="section-head">
+    <div class="section-number">03</div>
+    <div class="section-heading-group">
+      <span class="section-kicker">la colección completa</span>
+      <h2 class="section-title">Every <em>Event</em></h2>
+      <div class="section-bilingual">Chronological · April 2026 → January 2027</div>
+    </div>
+  </div>
+  <div class="results-count" id="results-count"></div>
+  <div class="grid" id="events-grid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">San Diego <em>&amp; Baja</em></div>
+  <div class="footer-tagline">un solo mapa · one guide</div>
+  <div class="footer-meta">
+    <span id="footer-count">—</span> events · Apr 2026 → Jan 2027 · Updated continuously
+  </div>
+  <div style="margin-top: 24px; font-size: 11px; color: rgba(245, 235, 208, 0.4); letter-spacing: 0.16em;">
+    Made in Kaiserslautern · Curated with love for the region
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// ============================================================
+// EVENT DATA
+// Fields: d=date (YYYY-MM-DD or range), de=display date, n=name,
+//         v=venue, r=region, nh=neighborhood/city, t=types[],
+//         b=blurb, u=url, a=anchor, rc=recurring, mx=mexico
+// ============================================================
+const events = [
+// APRIL
+{d:"2026-04-22",de:"APR 22",n:"Charlie Puth",v:"Viejas Arena",r:"sd",nh:"SDSU",t:["music"],b:"Charlie Puth headlines SDSU's arena with Daniel Seavey and Ally Salort.",u:"https://as.sdsu.edu/viejas_arena/event/982"},
+{d:"2026-04-23",de:"APR 23",n:"The Brook & The Bluff",v:"Observatory North Park",r:"sd",nh:"North Park",t:["music"],b:"The Werewolf Tour brings indie folk to North Park.",u:"https://www.ticketmaster.com"},
+{d:"2026-04-24",de:"APR 24",n:"Ari Lennox",v:"SOMA",r:"sd",nh:"Midway",t:["music"],b:"R&B star headlines SOMA's Mainstage.",u:"https://bit.ly/4qX1U4X"},
+{d:"2026-04-24",de:"APR 24",n:"Cheap Trick",v:"Humphreys Concerts by the Bay",r:"sd",nh:"Shelter Island",t:["music"],b:"Classic rock legends at the bayfront amphitheater. SOLD OUT.",u:"https://humphreysconcerts.com/schedule.cfm"},
+{d:"2026-04-24",de:"APR 24",n:"Luciana Souza & Marcel Camargo: New Moon",v:"La Jolla Athenaeum",r:"sd",nh:"La Jolla",t:["music"],b:"Brazilian jazz duo at the Athenaeum.",u:"https://ljathenaeum.org"},
+{d:"2026-04-24",de:"APR 24",n:"The Pharcyde",v:"Belly Up Tavern",r:"nc",nh:"Solana Beach",t:["music"],b:"'90s hip-hop legends on the Belly Up stage.",u:"https://www.ticketweb.com"},
+{d:"2026-04-25",de:"APR 25",n:"Adams Avenue Unplugged",v:"Adams Avenue (26 venues)",r:"sd",nh:"Normal Heights",t:["music","neighborhood","festival","free"],b:"Free two-mile musical walkabout with 90 performances; Alejandro Escovedo headlines the main stage at Normal Heights United Church.",u:"https://www.sandiego.org/events-festivals/adams-avenue-unplugged/c431814f13ad11f1b563",a:true},
+{d:"2026-04-25",de:"APR 25",n:"Chicano Park Day",v:"Chicano Park (under Coronado Bridge)",r:"sd",nh:"Barrio Logan",t:["cultural","music","art","free"],b:"56th annual commemoration of the 1970 park takeover — Aztec dance, lowrider car show, live music, and community workshops.",u:"https://chicanoparkmuseum.org/chicano-park-day/",a:true},
+{d:"2026-04-25",de:"APR 25–26",n:"Mission Fed ArtWalk Little Italy",v:"India Street",r:"sd",nh:"Little Italy",t:["art","music","neighborhood","festival","free"],b:"42nd annual free juried fine art festival with 250+ artists, four music stages, and family art.",u:"https://www.artwalksandiego.org/missionfed/",a:true},
+{d:"2026-04-25",de:"APR 25",n:"San Diego EarthFest",v:"Presidents Way Lawn",r:"sd",nh:"Balboa Park",t:["cultural","food","music","free"],b:"Balboa Park's biggest Earth Day festival with 100+ sustainable exhibitors, music, and wellness classes.",u:"https://www.sandiegoearthfest.com/"},
+{d:"2026-04-24",de:"APR 24–26",n:"Art Alive at SDMA",v:"San Diego Museum of Art",r:"sd",nh:"Balboa Park",t:["art","cultural"],b:"Four-day floral interpretation of SDMA artworks; 2026 theme draws from the Toulouse-Lautrec collection.",u:"https://www.sdmart.org/artalive/"},
+{d:"2026-04-25",de:"APR 25",n:"Ichiko Aoba: Across the Oceans",v:"Balboa Theatre",r:"sd",nh:"Gaslamp",t:["music"],b:"The Japanese folk/ambient songwriter at SD's historic Balboa Theatre.",u:"https://www.sandiegotheatres.org/events/detail/ichiko-aoba-2026"},
+{d:"2026-04-25",de:"APR 25",n:"Phillip Phillips",v:"Bayside Amphitheater",r:"sd",nh:"SeaWorld",t:["music"],b:"Pop/rock songwriter kicks off the Seven Seas summer concert series.",u:"https://seaworld.com/san-diego/events/concert-series/"},
+{d:"2026-04-25",de:"APR 25",n:"August Burns Red & The Amity Affliction",v:"SOMA",r:"sd",nh:"Midway",t:["music"],b:"Twin metal headliners on the Mainstage.",u:"https://bit.ly/3K50qp6"},
+{d:"2026-04-25",de:"APR 25–26",n:"Encinitas Spring Street Fair",v:"S. Coast Highway 101 (D St to J St)",r:"nc",nh:"Encinitas",t:["neighborhood","food","art","music","festival"],b:"Two-day, six-block street fair with 450+ vendors, four stages, and a beer garden.",u:"https://www.encinitas101.com/spring-street-fair"},
+{d:"2026-04-26",de:"APR 26",n:"José María Napoleón",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Mexican Latin singer-songwriter at the SDSU amphitheater.",u:"https://as.sdsu.edu/calcoast/event/784"},
+{d:"2026-04-28",de:"APR 28",n:"James Taylor & His All-Star Band",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"The folk-rock icon at San Diego's dramatic bayside shell.",u:"https://www.theshell.org/performances/james-taylor-2026/",a:true},
+{d:"2026-04-30",de:"APR 30",n:"Ms. Lauryn Hill",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"The Miseducation of Lauryn Hill live at Petco Park's concert plaza.",u:"https://thefinestcollective.com/event/ms-lauryn-hill/",a:true},
+{d:"2026-04-30",de:"APR 30",n:"Trio Los Panchos: Nostalgia Tour",v:"Balboa Theatre",r:"sd",nh:"Gaslamp",t:["music","cultural"],b:"The iconic Latin bolero trio returns.",u:"https://www.sandiegotheatres.org/events/detail/trio-los-panchos-2026"},
+
+// MAY
+{d:"2026-05-01",de:"MAY 1",n:"Cazzu",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Argentine Latin trap star at the SDSU amphitheater.",u:"https://as.sdsu.edu/calcoast/event/935"},
+{d:"2026-05-01",de:"MAY 1 & 3",n:"Star Wars: A New Hope in Concert",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"San Diego Symphony performs the complete score as the film plays on the shell screen.",u:"https://www.sandiegosymphony.org/performances/star-wars-a-new-hope-in-concert-2026/"},
+{d:"2026-05-01",de:"MAY 1–5",n:"Fiesta Old Town Cinco de Mayo",v:"Old Town San Diego State Historic Park",r:"sd",nh:"Old Town",t:["cultural","food","music","festival"],b:"SD's largest public Cinco de Mayo celebration with ballet folklórico, lucha libre, and authentic Mexican food.",u:"https://oldtowncincodemayo.com/"},
+{d:"2026-05-02",de:"MAY 2",n:"North Park Salsa Fest",v:"North Park Mini Park (3812 29th St)",r:"sd",nh:"North Park",t:["food","neighborhood","free"],b:"5th annual salsa-tasting showdown — the dip, not the dance. 60+ local salsas battle for the crown. Free entry, pay-per-taste chip booths, live mariachi.",u:"https://www.northparksalsafest.com/",a:true},
+{d:"2026-05-02",de:"MAY 2",n:"HPR International Ethnic Food Fair",v:"House of Pacific Relations Cottages",r:"sd",nh:"Balboa Park",t:["cultural","food","music","free"],b:"30+ international cottages serve food representing their countries on the Pan American and International Lawns.",u:"https://www.sdhpr.org/events-food.html"},
+{d:"2026-05-03",de:"MAY 3",n:"Carlsbad Village Street Faire (Spring)",v:"Downtown Carlsbad Village",r:"nc",nh:"Carlsbad",t:["neighborhood","food","art","festival"],b:"Largest one-day street faire in the country with 900 booths.",u:"https://www.carlsbadvillagefaire.com/",a:true},
+{d:"2026-05-07",de:"MAY 7",n:"Taste of Cardiff (16th)",v:"Restaurant Row, S. Coast Hwy 101",r:"nc",nh:"Cardiff",t:["food","neighborhood","music"],b:"20+ tasting stops along Cardiff's restaurant row with live music.",u:"https://www.cardiff101.com/events-calendar/2026-taste"},
+{d:"2026-05-07",de:"MAY 7–10",n:"Gator by the Bay",v:"Spanish Landing Park",r:"sd",nh:"Harbor Island",t:["music","food","cultural","festival"],b:"100+ performances on 7 stages with 10,000 lbs of Louisiana crawfish; largest Louisiana-themed fest on the West Coast.",u:"https://gatorbythebay.com/",a:true},
+{d:"2026-05-09",de:"MAY 9",n:"SDCCU Festival of Arts in North Park",v:"University Ave & 30th Street",r:"sd",nh:"North Park",t:["art","music","food","neighborhood","festival"],b:"24th annual neighborhood arts & music festival with the Craft Beer Block.",u:"https://www.sandiego.org/members/associations-organizations/north-park-main-street/events/sdccu-festival-of-arts-in-north-park.aspx"},
+{d:"2026-05-10",de:"MAY 10",n:"The Avett Brothers & Mike Patton",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Folk-rock heroes plus a surprise Mike Patton set under the bayside shell.",u:"https://www.theshell.org/performances/the-avett-brothers/"},
+{d:"2026-05-10",de:"MAY 10",n:"Los Tigres del Norte: La Loteria Tour",v:"Pala Starlight Theater",r:"nc",nh:"Pala",t:["music","cultural"],b:"The legendary regional Mexican group at the casino's outdoor Starlight.",u:"https://www.etix.com/ticket/p/32780185"},
+{d:"2026-05-14",de:"MAY 14–17",n:"Expo Artesanal Tijuana 2026",v:"CECUT (Centro Cultural Tijuana)",r:"tj",nh:"Tijuana",t:["art","cultural"],mx:true,b:"National artisan expo — textiles, embroidery, jewelry, ceramics from across Mexico.",u:"https://tijuanaeventos.com/eventos/expo-artesanal-tijuana-2026-en-cecut-cultura-y-tradicion-mexicana/"},
+{d:"2026-05-15",de:"MAY 15",n:"P!nk — Curebound Concert for Cures",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Pop icon P!nk headlines the annual cancer research benefit concert.",u:"https://thefinestcollective.com/event/curebound-concert-for-cures-pnk/"},
+{d:"2026-05-15",de:"MAY 15",n:"Pennywise",v:"SOMA",r:"sd",nh:"Midway",t:["music"],b:"Hermosa Beach hardcore-punk veterans at SOMA.",u:"https://bit.ly/4qQhyOC"},
+{d:"2026-05-16",de:"MAY 16",n:"Ben Folds & A Piano Tour",v:"The Magnolia",r:"nc",nh:"El Cajon",t:["music"],b:"Just Ben, a grand piano, and several dozen of his best songs.",u:"https://www.ticketmaster.com/ben-folds-a-piano-tour-el-cajon-california-05-16-2026/event/0B006437A85D5B1B"},
+{d:"2026-05-17",de:"MAY 17",n:"MGK — Lost Americana Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Rock/hip-hop headliner at the South Bay's 20k-cap amphitheater.",u:"https://www.ticketmaster.com/mgk-lost-americana-tour-chula-vista-california-05-17-2026/event/0A006323D15034AF"},
+{d:"2026-05-19",de:"MAY 19",n:"Alex G",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Indie rock's most beloved songwriter returns to the bayside shell.",u:"https://www.theshell.org/performances/alex-g/"},
+{d:"2026-05-20",de:"MAY 20",n:"Yungblud — Idols World Tour",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"The British rock/pop provocateur at the shell.",u:"https://www.theshell.org/performances/yungblud-and-idols-world-tour/"},
+{d:"2026-05-22",de:"MAY 22–31",n:"Feria del Libro de Tijuana (41st)",v:"Parque Morelos",r:"tj",nh:"Tijuana",t:["cultural","free","festival"],mx:true,b:"41st edition of Tijuana's city book fair, first year at Parque Morelos.",u:"https://zetatijuana.com/2026/03/feria-del-libro-de-tijuana-2026-en-el-parque-morelos/"},
+{d:"2026-05-22",de:"MAY 22–23",n:"Julieta Venegas: Norteña Tour",v:"Audiorama El Trompo",r:"tj",nh:"Tijuana",t:["music"],mx:true,b:"Two-night stand by the Grammy-winning Tijuana-raised pop songwriter.",u:"https://tijuanaeventos.com/"},
+{d:"2026-05-23",de:"MAY 23",n:"Miguel Bosé",v:"Plaza Monumental de Playas de Tijuana",r:"tj",nh:"Playas",t:["music"],mx:true,b:"Miguel Bosé concert at the oceanside bullring.",u:"https://tijuanaeventos.com/"},
+{d:"2026-05-23",de:"MAY 23",n:"Paella, Flamenco & Wine Festival",v:"Hotel Festival Plaza",r:"ros",nh:"Rosarito",t:["food","wine","music"],mx:true,b:"Paella cooked to live flamenco, paired with Valle wines.",u:"https://www.rosarito.org/en/events/"},
+{d:"2026-05-23",de:"MAY 23",n:"Kesha — The Freedom Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Pop's chaos queen brings the new era to the South Bay.",u:"https://www.ticketmaster.com/kesha-the-freedom-tour-chula-vista-california-05-23-2026/event/0A006472E356D717"},
+{d:"2026-05-23",de:"MAY 23–24",n:"Rosarito Art Walk (15th)",v:"CEART Rosarito",r:"ros",nh:"Rosarito",t:["art","festival"],mx:true,b:"15-year anniversary of Rosarito's open-air art walk — painting, sculpture, photography, popular art.",u:"https://tijuanaeventos.com/eventos/rosarito-art-walk-2026-15-anos-de-arte-en-ceart/"},
+{d:"2026-05-23",de:"MAY 23",n:"Mac DeMarco",v:"Humphreys Concerts by the Bay",r:"sd",nh:"Shelter Island",t:["music"],b:"Indie's slacker prince at the bayside amphitheater. SOLD OUT.",u:"https://humphreysconcerts.com/schedule.cfm"},
+{d:"2026-05-24",de:"MAY 24",n:"Vista Strawberry Festival (14th)",v:"Downtown Vista",r:"nc",nh:"Vista",t:["food","neighborhood","music","festival"],b:"Memorial Day weekend festival celebrating Vista's strawberry heritage with pie-eating contests and Strawberry Idol.",u:"https://vistastrawberryfest.com/"},
+{d:"2026-05-26",de:"MAY 26",n:"Los Fabulosos Cadillacs",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music","cultural"],b:"The Argentine Latin rock institution at the SDSU amphitheater.",u:"https://as.sdsu.edu/calcoast/event/937"},
+{d:"2026-05-29",de:"MAY 29",n:"Pitbull — I'm Back (w/ Lil Jon)",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Mr. Worldwide and Lil Jon bring the hype to the South Bay.",u:"https://www.ticketmaster.com/pitbull-im-back-with-special-guest-chula-vista-california-05-29-2026/event/0A00642DB729868E"},
+{d:"2026-05-30",de:"MAY 30–31",n:"Fiesta del Sol (45th)",v:"Fletcher Cove, Solana Beach",r:"nc",nh:"Solana Beach",t:["music","food","neighborhood","festival","free"],b:"Two-day free festival with 14+ live bands including The English Beat, Los Lobos, and Common Sense.",u:"https://fiestadelsol.net/"},
+
+// JUNE
+{d:"2026-06-02",de:"JUN 2",n:"The Human League (w/ Soft Cell, Alison Moyet)",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Triple-header '80s synth-pop royalty at SDSU.",u:"https://as.sdsu.edu/calcoast/event/983"},
+{d:"2026-06-03",de:"JUN 3",n:"The Kid LAROI",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Australian pop/hip-hop star at the ballpark plaza.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-06-06",de:"JUN 6",n:"North Park Music Fest",v:"North Park Mini Park + multiple venues",r:"sd",nh:"North Park",t:["music","festival"],b:"Frankie and the Witch Fingers, Cut Chemist, Brainstory, The Gaslamp Killer + 30 acts across North Park.",u:"https://events.com/r/en_US/tickets/north-park-music-fest-2026-san-diego-june-1031676"},
+{d:"2026-06-09",de:"JUN 9",n:"Paul Simon — A Quiet Celebration Tour",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Paul Simon at the bayside shell — a rare intimate run.",u:"https://www.theshell.org/performances/paul-simon-a-quiet-celebration-tour/"},
+{d:"2026-06-10",de:"JUN 10–JUL 5",n:"San Diego County Fair",v:"Del Mar Fairgrounds",r:"nc",nh:"Del Mar",t:["neighborhood","food","music","cultural","festival"],b:"The region's signature fair — concerts, livestock, rides, fair food — runs 26 days.",u:"https://www.sdfair.com/",a:true},
+{d:"2026-06-10",de:"JUN 10",n:"Chicago",v:"Corona Grandstand Stage (SD County Fair)",r:"nc",nh:"Del Mar",t:["music"],b:"The horn-rock institution opens the fair's grandstand concert series.",u:"https://www.sdfair.com/p/what-to-do/grandstand"},
+{d:"2026-06-12",de:"JUN 12",n:"Rod Stewart — One Last Time (w/ Richard Marx)",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Sir Rod's farewell tour hits the South Bay amphitheater.",u:"https://www.ticketmaster.com/rod-stewart-one-last-time-chula-vista-california-06-12-2026/event/0A006363908940 67"},
+{d:"2026-06-13",de:"JUN 13",n:"Field of Dreamz Festival (Sublime + Slightly Stoopid)",v:"Petco Park",r:"sd",nh:"East Village",t:["music","festival"],b:"The reggae-ska-punk festival takes over the ballpark for a summer spectacle.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-06-13",de:"JUN 13",n:"GRiZ (w/ Sippy)",v:"Corona Grandstand Stage (SD County Fair)",r:"nc",nh:"Del Mar",t:["music"],b:"Electro-funk bass music at the fair.",u:"https://www.sdfair.com/p/what-to-do/grandstand"},
+{d:"2026-06-13",de:"JUN 13",n:"XX Fiesta de los Viñedos en Flor",v:"Rancho San Gabriel, San Antonio de las Minas",r:"valle",nh:"Valle de Guadalupe",t:["wine","food","festival"],mx:true,b:"80 wineries, farm market, children's activities, art auction benefiting vulnerable communities.",u:"https://provinobc.mx/eventos/"},
+{d:"2026-06-14",de:"JUN 14–JUL 12",n:"Old Globe Summer Shakespeare: Measure for Measure",v:"Lowell Davies Festival Theatre",r:"sd",nh:"Balboa Park",t:["cultural","art"],b:"Outdoor Shakespeare under the stars at Balboa Park's festival theater.",u:"https://www.theoldglobe.org/"},
+{d:"2026-06-16",de:"JUN 16–17",n:"Taste of Little Italy",v:"India Street",r:"sd",nh:"Little Italy",t:["food","neighborhood"],b:"Two-night self-guided progressive tasting across 48 blocks of Little Italy restaurants.",u:"https://www.littleitalysd.com/events/taste-of-little-italy"},
+{d:"2026-06-17",de:"JUN 17–27",n:"Mainly Mozart All-Star Festival (38th)",v:"Baker-Baum Concert Hall + Epstein Amphitheatre",r:"sd",nh:"La Jolla",t:["music","festival"],b:"Six-concert classical festival with principal players from major US orchestras; James Ehnes headlines.",u:"https://www.mainlymozart.org/allstar"},
+{d:"2026-06-18",de:"JUN 18",n:"Fuerza Regida",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Corridos tumbados superstars take over the ballpark.",u:"https://thefinestcollective.com/event/fuerza-rediga/"},
+{d:"2026-06-19",de:"JUN 19",n:"Marshmello (w/ 4B)",v:"Corona Grandstand Stage (SD County Fair)",r:"nc",nh:"Del Mar",t:["music"],b:"EDM headliner at the fair's grandstand stage.",u:"https://www.sdfair.com/events/2026/marshmello"},
+{d:"2026-06-20",de:"JUN 20",n:"Kinfolk Fest (Juneteenth)",v:"Waterfront Park",r:"sd",nh:"Downtown",t:["cultural","music","food","festival","free"],b:"SD's largest Juneteenth celebration produced by SD Melanin — Black-owned vendors, music, community.",u:"https://www.sdmelanin.com/juneteenth-2026"},
+{d:"2026-06-20",de:"JUN 20",n:"Ziggy Marley + Burning Spear",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Reggae royalty double-bill at SDSU.",u:"https://as.sdsu.edu/calcoast/event/1022"},
+{d:"2026-06-20",de:"JUN 20–21",n:"ExpoAgro Valle de Guadalupe",v:"Vinícola Castillo Ferrer",r:"valle",nh:"Valle de Guadalupe",t:["food","wine","cultural","festival"],mx:true,b:"5-pavilion agro expo — agriculture, hotels & weddings, wine, gastronomy, artisan beverages.",u:"https://expoagrovalleguadalupe.com/"},
+{d:"2026-06-22",de:"JUN 22",n:"Khalid — It's Always Summer Somewhere Tour",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"R&B/pop headliner at the outdoor SDSU amphitheater.",u:"https://as.sdsu.edu/calcoast/event/936"},
+{d:"2026-06-26",de:"JUN 26",n:"Rady Shell Summer Season Opens",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Rafael Payare conducts the SD Symphony + violinist Stefan Jackiw to open the summer bayside season.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-06-26",de:"JUN 26",n:"Maren Morris",v:"Corona Grandstand Stage (SD County Fair)",r:"nc",nh:"Del Mar",t:["music"],b:"The Grammy-winning country-pop crossover at the fair.",u:"https://www.sdfair.com/p/what-to-do/grandstand"},
+{d:"2026-06-27",de:"JUN 27",n:"The Beach Boys w/ SD Symphony",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"California's original surf-rock sound with the SD Symphony at the shell.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-06-27",de:"JUN 27",n:"Kid Cudi — Rebel Ragers Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Mr. Rager himself at the South Bay amphitheater.",u:"https://www.ticketmaster.com/kid-cudi-presents-the-rebel-ragers-chula-vista-california-06-27-2026/event/0A00642FC5CF622E"},
+{d:"2026-06-27",de:"JUN 27",n:"OB Street Fair & Chili Cook-Off (46th)",v:"Newport Avenue",r:"sd",nh:"Ocean Beach",t:["food","music","neighborhood","festival"],b:"46th Chili Cook-Off + two music stages, Artists' Alley, community mural, and beach entertainment.",u:"https://oceanbeachsandiego.com/attractions/annual-events/ob-street-fair-chili-cook",a:true},
+{d:"2026-06-27",de:"JUN 27–28",n:"Into the Horizon Festival",v:"Waterfront Park",r:"sd",nh:"Downtown",t:["music","festival"],b:"Two-day EDM festival headlined by Martin Garrix and Tiësto. 21+.",u:"https://www.intothehorizon.com"},
+{d:"2026-06-28",de:"JUN 28",n:"Kool & The Gang w/ The Sugarhill Gang",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Funk/soul legends and the hip-hop originators on the same bayside bill.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+
+// JULY
+{d:"2026-07-03",de:"JUL 3",n:"Rosalía — Lux Tour",v:"Pechanga Arena",r:"sd",nh:"Midway",t:["music"],b:"The Spanish flamenco-pop innovator at SD's 16k arena.",u:"https://www.ticketmaster.com/event/0A00636EC92C82CC"},
+{d:"2026-07-04",de:"JUL 4",n:"Big Bay Boom 2026",v:"San Diego Bay (4 barges)",r:"sd",nh:"Bay-wide",t:["holiday","free"],b:"West Coast's largest Fourth of July fireworks show, synchronized to music on 91X FM. 9:15 PM.",u:"https://bigbayboom.com/",a:true},
+{d:"2026-07-04",de:"JUL 4",n:"Coronado 4th of July Parade & Fireworks",v:"Orange Avenue",r:"sd",nh:"Coronado",t:["holiday","parade"],b:"76th annual parade plus Crown City Classic 12K/5K, Spreckels Park concerts, Navy Leap Frogs jump, fireworks over Glorietta Bay.",u:"https://coronadofourthofjuly.com/"},
+{d:"2026-07-04",de:"JUL 4",n:"America the Beautiful: 250 (SDSO)",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","holiday"],b:"Byron Stripling conducts patriotic classics with Big Bay Boom viewable from the Shell.",u:"https://www.theshell.org/performances/independence-day-celebration-2026/"},
+{d:"2026-07-05",de:"JUL 5",n:"Viñadas: Valle Wine & Brew Fest",v:"Almatierra at Ojo Azul Resort",r:"valle",nh:"Valle de Guadalupe",t:["wine","food"],mx:true,b:"Valley wine-and-beer meetup at Ojo Azul.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-07-10",de:"JUL 10–11",n:"Chris Stapleton's All-American Road Show",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Two nights of the country-soul titan at the South Bay amphitheater.",u:"https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-chula-vista-california-07-10-2026/event/0A0064259C253601"},
+{d:"2026-07-10",de:"JUL 10–12",n:"Fellow Travelers (SD Opera)",v:"Balboa Theatre",r:"sd",nh:"Gaslamp",t:["music","cultural"],b:"Gregory Spears' contemporary opera at the Balboa Theatre.",u:"https://www.sdopera.org"},
+{d:"2026-07-11",de:"JUL 11",n:"Ópera en la Calle 2026",v:"Calle 5ta, Col. Libertad",r:"tj",nh:"Tijuana",t:["music","cultural","free","festival"],mx:true,b:"Free open-air opera festival — 300+ singers, musicians, actors, dancers transform Sixth Street.",u:"https://www.operadetijuana.org/index.php/festivales/festival-opera-en-la-calle"},
+{d:"2026-07-11",de:"JUL 11",n:"Wynonna Judd & Melissa Etheridge: Raised on Radio Tour",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Two country/rock legends on a co-headlining tour.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-07-12",de:"JUL 12",n:"Beethoven by the Bay (SDSO)",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"San Diego Symphony plays Beethoven at the shell.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-07-15",de:"JUL 15",n:"Young the Giant (w/ Cold War Kids, KennyHoopla)",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Indie-rock triple bill at SDSU.",u:"https://as.sdsu.edu/calcoast/event/1020"},
+{d:"2026-07-16",de:"JUL 16–17",n:"Pride of Hillcrest Block Party",v:"Pride Plaza, Normal & University",r:"sd",nh:"Hillcrest",t:["cultural","music"],b:"Pride Week kickoff party at the flag with drag, DJs, Ferris wheel, food trucks.",u:"https://www.sandiego.org/explore/events/festivals-and-street-fairs/pride-of-hillcrest.aspx"},
+{d:"2026-07-17",de:"JUL 17",n:"Evanescence 2026 World Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Evanescence with Spiritbox and Nova Twins on the 2026 tour.",u:"https://www.ticketmaster.com/evanescence-2026-world-tour-with-spiritbox-chula-vista-california-07-17-2026/event/0A006378C6C484AD"},
+{d:"2026-07-17",de:"JUL 17",n:"Distant Worlds: Music from Final Fantasy",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"The SD Symphony performs the Final Fantasy video game score.",u:"https://www.theshell.org/performances/rady-shell-calendar/"},
+{d:"2026-07-18",de:"JUL 18–19",n:"SD Pride Parade + Festival",v:"Hillcrest → Marston Point, Balboa Park",r:"sd",nh:"Hillcrest / Balboa Park",t:["cultural","music","parade","festival"],b:"Largest single-day civic event in SD — 250,000+ spectators. Parade Saturday, two-day festival headlined by Krewella + MARINA at Marston Point.",u:"https://sdpride.org/parade-2026/",a:true},
+{d:"2026-07-21",de:"JUL 21",n:"Ed Sheeran — LOOP Tour",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Ed Sheeran's stadium tour lands at Petco.",u:"https://www.ticketmaster.com/ed-sheeran-loop-tour-san-diego-california-07-21-2026/event/0A006331DA303659",a:true},
+{d:"2026-07-22",de:"JUL 22–26",n:"Comic-Con International",v:"San Diego Convention Center + Gaslamp",r:"sd",nh:"Downtown / Gaslamp",t:["cultural","art"],b:"The pop-culture world tour's annual home base. Marvel returns to Hall H with Avengers: Doomsday; Funko Fundays at Petco Park Friday 7/24. Preview Night 7/22.",u:"https://www.comic-con.org/",a:true},
+{d:"2026-07-31",de:"JUL 31–AUG 29",n:"La Jolla Music Society SummerFest",v:"The Conrad + The JAI",r:"sd",nh:"La Jolla",t:["music","festival","cultural"],b:"40th anniversary SummerFest under music director Inon Barnatan. 21 concerts, 50+ free community events.",u:"https://theconrad.org/summerfest/"},
+{d:"2026-07-31",de:"JUL 31",n:"The Music of John Williams (SDSO)",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"The SD Symphony plays Williams — Star Wars, Indiana Jones, E.T., Jaws.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-07-31",de:"JUL 31–AUG 2",n:"ArtWalk Liberty Station (21st)",v:"Liberty Station",r:"sd",nh:"Point Loma",t:["art","music","festival"],b:"21st year with 200+ visual artists; craft beer, live entertainment, family art experiences.",u:"https://www.artwalksandiego.org/libertystation/"},
+
+// AUGUST - VENDIMIA MONTH
+{d:"2026-08-01",de:"AUG 1",n:"St. Vincent w/ SD Symphony",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"Annie Clark meets the orchestra at the shell — one of the can't-miss bookings of the summer.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-08-01",de:"AUG 1",n:"Viñadas: Wine, Corks & Forks at Vinos LT",v:"Vinos LT",r:"valle",nh:"Valle de Guadalupe",t:["wine","food"],mx:true,b:"Harvest-season kickoff at Vinos LT.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-02",de:"AUG 2",n:"Cardiff Dog Days of Summer (21st)",v:"Downtown Cardiff-by-the-Sea",r:"nc",nh:"Cardiff",t:["neighborhood","food","music","free"],b:"Free dog festival with vendors, rescue groups, dog contests, and a ticketed libation lounge.",u:"https://www.cardiff101.com/events-calendar/dogdays26"},
+{d:"2026-08-02",de:"AUG 2",n:"Sarah McLachlan",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Sarah McLachlan in the round at the bayside shell.",u:"https://www.theshell.org/performances/rady-shell-calendar/"},
+{d:"2026-08-04",de:"AUG 4",n:"ZZ Top w/ Cheap Trick",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"That little ol' band from Texas and Cheap Trick — a rock-and-roll dream bill.",u:"https://www.ticketmaster.com/zz-top-with-special-guest-cheap-chula-vista-california-08-04-2026/event/0A00648A99B56C62"},
+{d:"2026-08-04",de:"AUG 4",n:"Death Cab For Cutie",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"The Seattle indie lifers at the ballpark plaza.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-08-05",de:"AUG 5",n:"Inauguración: XXXVI Fiestas de la Vendimia",v:"Hotel Coral & Marina",r:"ens",nh:"Ensenada",t:["wine"],mx:true,b:"Official opening of the 36th annual wine harvest festival season.",u:"https://provinobc.mx/eventos/"},
+{d:"2026-08-06",de:"AUG 6",n:"Grupo Frontera",v:"Viejas Arena",r:"sd",nh:"SDSU",t:["music"],b:"The regional Mexican/cumbia sensation at Viejas.",u:"https://as.sdsu.edu/viejas_arena/event/1029"},
+{d:"2026-08-07",de:"AUG 7",n:"XXXVI Muestra del Vino",v:"Centro Cultural Riviera",r:"ens",nh:"Ensenada",t:["wine","food","music","festival"],mx:true,b:"The crown-jewel public Vendimia event — 80 wineries, 160+ labels organized by grape variety, 50+ restaurants, 5 music stages. $1,450 MXN.",u:"https://provinobc.mx/eventos/",a:true},
+{d:"2026-08-07",de:"AUG 7–9",n:"Baja Beach Fest 2026",v:"Rosarito Beach",r:"ros",nh:"Rosarito",t:["music","festival"],mx:true,b:"8th edition. Anuel AA, Ozuna, Junior H, Nicky Jam, Sean Paul, Ryan Castro, Manuel Turizo, John Summit across three days of reggaetón, regional, and Latin EDM.",u:"https://bajabeachfest.com/",a:true},
+{d:"2026-08-07",de:"AUG 7",n:"Little Feat — The Last Farewell Tour",v:"Humphreys Concerts by the Bay",r:"sd",nh:"Shelter Island",t:["music"],b:"Little Feat's farewell at the bayside amphitheater.",u:"https://www.ticketmaster.com/event/0A00643C08E72D70"},
+{d:"2026-08-08",de:"AUG 8",n:"Vendimia: Fiesta de Colores at L.A. Cetto",v:"L.A. Cetto Winery",r:"valle",nh:"Valle de Guadalupe",t:["wine","food","music"],mx:true,b:"L.A. Cetto's anniversary vendimia — canapés, four-course menu, pairings, grape-stomping contest, live music.",u:"https://tijuanaeventos.com/eventos/fiesta-de-colores-en-valle-de-guadalupe-2026-vendimia/",a:true},
+{d:"2026-08-08",de:"AUG 8",n:"Viñadas: Vino, Arte, Música y Sabores",v:"L86 Hotel Boutique",r:"valle",nh:"Valle de Guadalupe",t:["wine","art","music","food"],mx:true,b:"Art-and-music vendimia at Rancho L86.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-08",de:"AUG 8",n:"Viñadas: Un día entre viñedos",v:"Vinícola Castillo Ferrer",r:"valle",nh:"Valle de Guadalupe",t:["wine"],mx:true,b:"Full-day vineyard immersion at Castillo Ferrer.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-08",de:"AUG 8",n:"Stayin' Alive: The Bee Gees & Beyond (SDSO)",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"The SD Symphony plays the disco era.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-08-09",de:"AUG 9",n:"Gipsy Kings feat. Nicolas Reyes (SDSO)",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"Rumba and Latin under the summer shell.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-08-09",de:"AUG 9",n:"Hillcrest CityFest (36th)",v:"Fifth Avenue, Hillcrest (9 blocks)",r:"sd",nh:"Hillcrest",t:["music","art","food","neighborhood","festival"],b:"36th annual art and music festival drawing 80,000+; SD's largest arts street fair.",u:"https://www.fabuloushillcrest.com/cityfest-street-fair-music-festival",a:true},
+{d:"2026-08-10",de:"AUG 10,17,24,31",n:"Vendimia: Monte Xanic Pisado de Uva",v:"Monte Xanic Winery",r:"valle",nh:"Valle de Guadalupe",t:["wine","cultural"],mx:true,b:"Every Sunday in August: guided vineyard tours plus hands-on traditional grape stomping in wooden vats.",u:"https://montexanic.com.mx/tag/vendimia/"},
+{d:"2026-08-11",de:"AUG 11",n:"Santana & The Doobie Brothers — Oneness Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"A Bay Area rock-and-roll summit in the South Bay.",u:"https://www.ticketmaster.com/santana-the-doobie-brothers-oneness-tour-chula-vista-california-08-11-2026/event/0A00644BBF4685BC"},
+{d:"2026-08-15",de:"AUG 15",n:"Viñadas: Castillo La Toscana",v:"Castillo Toscana Hotel Boutique",r:"valle",nh:"Valle de Guadalupe",t:["wine","food"],mx:true,b:"Italianate vendimia at Castillo La Toscana.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-15",de:"AUG 15",n:"Rufus Du Sol",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Australian electronic trio take over Petco for a stadium-scale live set.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-08-17",de:"AUG 17",n:"Noah Kahan — The Great Divide Tour",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Noah Kahan's first SD stadium show.",u:"https://www.ticketmaster.com/"},
+{d:"2026-08-18",de:"AUG 18",n:"Mt. Joy",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Philly indie-folk at the shell.",u:"https://www.theshell.org/performances/rady-shell-calendar/"},
+{d:"2026-08-18",de:"AUG 18",n:"NE-YO & AKON — Nights Like This Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"A 2000s R&B/pop double bill.",u:"https://www.ticketmaster.com/neyo-akon-nights-like-this-tour-chula-vista-california-08-18-2026/event/0A006435C9E7B80D"},
+{d:"2026-08-19",de:"AUG 19",n:"311 and Dirty Heads — So Glad You Made It Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Reggae-rock icons co-headline the South Bay amphitheater.",u:"https://www.ticketmaster.com/311-and-dirty-heads-so-glad-chula-vista-california-08-19-2026/event/0A006472A4E28EA7"},
+{d:"2026-08-21",de:"AUG 21–22",n:"Harry Potter and the Sorcerer's Stone in Concert",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","cultural"],b:"SD Symphony plays the John Williams score while the film plays on the shell screen.",u:"https://www.theshell.org/seasons-and-packages/summer-2026/"},
+{d:"2026-08-23",de:"AUG 23",n:"XXXVI Concurso de Paellas 'Dr. Ramón García Ocejo'",v:"Vinícola Viña de Liceaga",r:"valle",nh:"Valle de Guadalupe",t:["food","wine","festival"],mx:true,b:"90 teams compete to make the best paella; 80 wineries pour, live music. The traditional closing of the Fiestas de la Vendimia.",u:"https://provinobc.mx/eventos/",a:true},
+{d:"2026-08-23",de:"AUG 23",n:"Viñadas: Vinos y Sombreros",v:"Limbo Hotel Boutique (Vinos 63)",r:"valle",nh:"Valle de Guadalupe",t:["wine","food"],mx:true,b:"'Wines & Hats' vendimia — dress code encouraged.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-27",de:"AUG 27",n:"David Byrne",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"David Byrne's ecstatic stage show rolls into SDSU.",u:"https://as.sdsu.edu/calcoast/event/1048"},
+{d:"2026-08-27",de:"AUG 27",n:"Nas & The Roots w/ De La Soul",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"A hip-hop history summit at the ballpark plaza.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-08-29",de:"AUG 29",n:"Brazilian Festival San Diego (17th)",v:"Waterfront Park",r:"sd",nh:"Downtown",t:["cultural","music","food","festival"],b:"17th edition (first time in SD in 14 years) with samba, Brazilian cuisine, and international acts.",u:"https://brazilianfestival.org/sandiego/"},
+{d:"2026-08-29",de:"AUG 29",n:"Viñadas: Polvo en las botas, Vino en la copa",v:"Don Tomás Viñedo",r:"valle",nh:"Valle de Guadalupe",t:["wine","cultural"],mx:true,b:"'Dust on the boots, wine in the glass' — rustic ranchero vendimia at Don Tomás.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-08-29",de:"AUG 29",n:"Muse — The Wow! Signal Tour",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Muse bring the stadium-scale rock spectacle to the South Bay.",u:"https://www.ticketmaster.com/muse-the-wow-signal-tour-chula-vista-california-08-29-2026/event/0A00647995296671"},
+{d:"2026-08-30",de:"AUG 30",n:"My Chemical Romance — The Black Parade",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"MCR play The Black Parade in full at the ballpark.",u:"https://www.ticketmaster.com/my-chemical-romance-the-black-parade-san-diego-california-08-30-2026/event/0A00632C06B46B15",a:true},
+
+// SEPTEMBER
+{d:"2026-09-04",de:"SEP 4–7",n:"Festival of Sail",v:"Maritime Museum of San Diego",r:"sd",nh:"Embarcadero",t:["cultural","music","food","festival"],b:"West Coast's largest tall ships festival with cannon battles, Parade of Sail, kids zone.",u:"https://sdmaritime.org/visit/public-events-seasonal/festival-of-sail/"},
+{d:"2026-09-05",de:"SEP 5",n:"Viñadas: El Cielo Valle de Guadalupe",v:"El Cielo Resort",r:"valle",nh:"Valle de Guadalupe",t:["wine","food"],mx:true,b:"Late-harvest vendimia at El Cielo's resort property.",u:"https://ggnorth.com/2026/03/vinadas-2026-expands-valle-de-guadalupe-wine-season/"},
+{d:"2026-09-08",de:"SEP 8",n:"Deep Purple w/ Kansas",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Two classic-rock institutions on the same bill.",u:"https://www.ticketmaster.com/deep-purple-with-special-guest-kansas-chula-vista-california-09-08-2026/event/0A0064799F0D71E9"},
+{d:"2026-09-09",de:"SEP 9",n:"J. Cole",v:"Viejas Arena",r:"sd",nh:"SDSU",t:["music"],b:"J. Cole at the SDSU arena.",u:"https://as.sdsu.edu/viejas_arena/event/1019"},
+{d:"2026-09-11",de:"SEP 11",n:"Kamasi Washington",v:"Music Box",r:"sd",nh:"Little Italy",t:["music"],b:"The LA jazz visionary at Music Box.",u:"https://www.ticketweb.com/event/kamasi-washington-music-box-tickets/14847933"},
+{d:"2026-09-12",de:"SEP 12",n:"Pierce The Veil — I Can't Hear You World Tour Finale",v:"Petco Park",r:"sd",nh:"East Village",t:["music"],b:"The SD-based post-hardcore heroes close their world tour at their hometown stadium. SOLD OUT.",u:"https://www.ticketmaster.com/pierce-the-veil-i-cant-hear-san-diego-california-09-12-2026/event/0A006430D67BDF67"},
+{d:"2026-09-15",de:"SEP 15",n:"Grito de Independencia",v:"Plaza Santa Cecilia / Palacio Municipal",r:"tj",nh:"Tijuana / Ensenada / Rosarito",t:["holiday","cultural","free"],mx:true,b:"Mexican Independence Day — mayoral 'Grito,' fireworks, mariachi, regional food across all Baja cities.",u:"https://www.tijuana.gob.mx/"},
+{d:"2026-09-16",de:"SEP 16",n:"'Weird Al' Yankovic — Bigger & Weirder 2026",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music"],b:"Weird Al brings his new tour to the bayside shell.",u:"https://www.ticketmaster.com/weird-al-yankovic-bigger-weirder-2026-san-diego-california-09-16-2026/event/0A006367AE9C7D1E"},
+{d:"2026-09-18",de:"SEP 18",n:"Mötley Crüe — Return Of The Carnival Of Sins",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"The Crüe return to the South Bay amphitheater.",u:"https://www.ticketmaster.com/the-return-of-the-carnival-of-chula-vista-california-09-18-2026/event/0A00636E928C51D0"},
+{d:"2026-09-19",de:"SEP 19–20",n:"Adams Avenue Street Fair (44th)",v:"Adams Avenue, Normal Heights",r:"sd",nh:"Normal Heights",t:["music","food","neighborhood","festival","free"],b:"44th year; 75+ bands on 7 stages, carnival rides, Fern Street Circus, 300 exhibitors — largest free fest in SD.",u:"https://www.adamsavenuebusiness.com/adams-avenue-street-fair/",a:true},
+{d:"2026-09-19",de:"SEP 19–20",n:"ArtWalk Carlsbad",v:"Armada Drive above the Flower Fields",r:"nc",nh:"Carlsbad",t:["art","music","food"],b:"150+ fine artists, live music, food trucks and KidsWalk overlooking the Pacific.",u:"https://www.artwalksandiego.org/carlsbad/"},
+{d:"2026-09-19",de:"SEP 19",n:"Day at the Docks",v:"Oceanside Harbor",r:"nc",nh:"Oceanside",t:["food","cultural","neighborhood"],b:"Free weekend festival with Pirate Village, entertainment stage, arts/crafts, Nail 'n' Sail competition.",u:"https://www.oceansidechamber.com/oceanside-harbor-days.html"},
+{d:"2026-09-25",de:"SEP 25–27",n:"MCAS Miramar Air Show",v:"MCAS Miramar",r:"sd",nh:"Miramar",t:["cultural","free","festival"],b:"America's largest military air show; admission, parking, and program all free. Blue Angels.",u:"https://miramarairshow.com/",a:true},
+{d:"2026-09-26",de:"SEP 26",n:"Mariachi USA Festival",v:"Rady Shell at Jacobs Park",r:"sd",nh:"Embarcadero",t:["music","festival","cultural"],b:"The premier mariachi festival tour lands at the bayside shell.",u:"https://www.theshell.org/performances/mariachi-usa-2026/"},
+{d:"2026-09-26",de:"SEP 26–27",n:"Pacific Islander Festival",v:"Ski Beach, Mission Bay",r:"sd",nh:"Mission Bay",t:["cultural","music","food","festival"],b:"Largest Pacific Islander festival in the U.S. — Melanesian, Micronesian, Polynesian culture, 100+ booths.",u:"https://www.pifasandiego.com/"},
+{d:"2026-09-27",de:"SEP 27",n:"Entijuanarte 2026",v:"Explanada CECUT",r:"tj",nh:"Tijuana",t:["art","cultural","free","festival"],mx:true,b:"Mexico's largest contemporary art fair on the border — 200+ visual artists, 150+ activities, workshops, performances, concerts. Free.",u:"https://www.cecut.gob.mx/sis/festivales/entijuanarte.php"},
+{d:"2026-09-27",de:"SEP 27–28",n:"CRSSD Festival Fall 2026",v:"Waterfront Park",r:"sd",nh:"Downtown",t:["music","festival"],b:"Fall edition of SD's premier electronic music festival on the downtown waterfront. 21+.",u:"https://crssdfest.com",a:true},
+
+// OCTOBER
+{d:"2026-10-03",de:"OCT 3",n:"Julieta Venegas",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"Julieta Venegas crosses the border for an SDSU headline.",u:"https://as.sdsu.edu/calcoast/event/1040"},
+{d:"2026-10-03",de:"OCT 3",n:"Social Distortion",v:"Gallagher Square at Petco Park",r:"sd",nh:"East Village",t:["music"],b:"Mike Ness and SoCal's punk-rock torch bearers at the ballpark plaza.",u:"https://www.petcoparkinsider.com/petco-park-events"},
+{d:"2026-10-03",de:"OCT 3",n:"Pacific Beachfest",v:"PB Boardwalk",r:"sd",nh:"Pacific Beach",t:["neighborhood","music","food","festival","free"],b:"Free beachside festival with surf contest, beach tennis, 5K, live music, kids zone.",u:"https://www.pacificbeachfest.org/"},
+{d:"2026-10-03",de:"OCT 3",n:"Taste of North Park",v:"30th & University",r:"sd",nh:"North Park",t:["food","neighborhood"],b:"50+ tasting shops — restaurants, breweries, cafés, cideries across North Park.",u:"https://www.tasteofnorthpark.com/"},
+{d:"2026-10-03",de:"OCT 3",n:"5to. Festival Vino sin Fronteras",v:"Club Campestre Tijuana",r:"tj",nh:"Tijuana",t:["wine","food","festival"],mx:true,b:"Cross-border wine fest — 40 wineries, 25 restaurants connecting San Diego and Baja. $1,500 MXN.",u:"https://provinobc.mx/eventos/"},
+{d:"2026-10-09",de:"OCT 9",n:"Jack Johnson — SURFILMUSIC Tour 2026",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Jack Johnson at the South Bay amphitheater.",u:"https://www.ticketmaster.com/jack-johnson-surfilmusic-tour-2026-chula-vista-california-10-09-2026/event/0A00635F98CF5D02"},
+{d:"2026-10-09",de:"OCT 9–10",n:"OB Oktoberfest",v:"Newport Ave at the Pier",r:"sd",nh:"Ocean Beach",t:["music","food","neighborhood","festival"],b:"Two-day beachfront Oktoberfest — newly expanded footprint, main stage, Electronica stage.",u:"https://www.oboktoberfest.com/"},
+{d:"2026-10-10",de:"OCT 10",n:"MANÁ — VIVIR SIN AIRE TOUR",v:"North Island Credit Union Amphitheatre",r:"sd",nh:"Chula Vista",t:["music"],b:"Maná's tour for their classic era at the South Bay amphitheater.",u:"https://www.ticketmaster.com/mana-vivir-sin-aire-tour-chula-vista-california-10-10-2026/event/0A006379E2818EC0"},
+{d:"2026-10-10",de:"OCT 10–11",n:"La Jolla Art & Wine Festival (18th)",v:"Girard Avenue",r:"sd",nh:"La Jolla",t:["art","food","festival"],b:"18th year — 170+ juried artists, wine/beer garden, Geppetto's Family Art Center.",u:"https://www.ljawf.com/"},
+{d:"2026-10-11",de:"OCT 11",n:"Little Italy FESTA!",v:"India Street",r:"sd",nh:"Little Italy",t:["cultural","food","music","festival"],b:"Largest Italian festival outside NYC — 150+ food & craft booths, bocce tournament, stickball game.",u:"https://www.littleitalysd.com/events/calendar",a:true},
+{d:"2026-10-14",de:"OCT 14–18",n:"SD International Film Festival (25th)",v:"THE LOT La Jolla + AMC UTC 14",r:"sd",nh:"La Jolla / UTC",t:["cultural","art","festival"],b:"25th annual; studio premieres, indie features, Culinary Cinema closing event.",u:"https://sdfilmfest.com/"},
+{d:"2026-10-21",de:"OCT 21",n:"Weezer w/ The Shins, Silversun Pickups",v:"Viejas Arena",r:"sd",nh:"SDSU",t:["music"],b:"A '00s indie-rock summit at Viejas.",u:"https://as.sdsu.edu/viejas_arena/event/1038"},
+{d:"2026-10-23",de:"OCT 23–25",n:"Caracol International Poetry Festival",v:"El Gato Azul Gallery",r:"ros",nh:"Playas de Rosarito",t:["cultural","art","free","festival"],mx:true,b:"20-year international poetry gathering — readings, editorial presentations, dialogue. Free.",u:"https://www.rosarito.org/en/events/"},
+{d:"2026-10-25",de:"OCT 25",n:"Gorillaz — The Mountain Tour 2026",v:"Pechanga Arena",r:"sd",nh:"Midway",t:["music"],b:"Damon Albarn's virtual band live at SD's 16k arena.",u:"https://www.ticketmaster.com/gorillaz-the-mountain-tour-san-diego-california-10-25-2026/event/0A00645B1979EB74"},
+{d:"2026-10-27",de:"OCT 27",n:"Doja Cat",v:"Viejas Arena",r:"sd",nh:"SDSU",t:["music"],b:"Doja Cat brings the spectacle to Viejas.",u:"https://as.sdsu.edu/viejas_arena/event/859"},
+{d:"2026-10-31",de:"OCT 31",n:"UB40",v:"Cal Coast Credit Union Open Air Theatre",r:"sd",nh:"SDSU",t:["music"],b:"UB40 wraps the SDSU outdoor season on Halloween night.",u:"https://as.sdsu.edu/calcoast/event/1000"},
+{d:"2026-10-31",de:"OCT 31",n:"Festival de los Muertos",v:"El Trompo Museo Interactivo",r:"ens",nh:"Ensenada",t:["holiday","cultural","festival"],mx:true,b:"Catrina fashion, theatre, concerts, dance, art exhibitions, community altar.",u:"https://www.sandiegored.com/"},
+{d:"2026-10-31",de:"OCT 31",n:"Nightmare on Normal Street",v:"Pride Plaza, Normal & University",r:"sd",nh:"Hillcrest",t:["holiday","music"],b:"Costume competition with $4,000 in prizes, DJ dance party, fundraiser for SD LGBT Community Center.",u:"https://www.fabuloushillcrest.com/nightmare-on-normal"},
+
+// NOVEMBER
+{d:"2026-11-01",de:"NOV 1",n:"Carlsbad Village Street Faire (Fall)",v:"Downtown Carlsbad Village",r:"nc",nh:"Carlsbad",t:["neighborhood","food","art","festival"],b:"Second edition of the country's largest one-day street faire.",u:"https://www.carlsbadvillagefaire.com/"},
+{d:"2026-11-01",de:"NOV 1",n:"V Noche de Catrinas",v:"Bodegas de Santo Tomás",r:"ens",nh:"Ensenada",t:["holiday","wine","cultural"],mx:true,b:"Day of the Dead themed wine fiesta — 40 wineries, 12 restaurants, mariachi, and traditional altars. $1,200 MXN.",u:"https://provinobc.mx/eventos/"},
+{d:"2026-11-01",de:"NOV 1–2",n:"Día de los Muertos — Old Town",v:"Old Town San Diego State Historic Park",r:"sd",nh:"Old Town",t:["cultural","holiday"],b:"Altars, Catrina contests, candlelit procession to El Campo Santo Cemetery at 5 PM.",u:"https://www.parks.ca.gov/?page_id=31340"},
+{d:"2026-11-01",de:"NOV 1–2",n:"Sherman Heights Día de los Muertos",v:"Sherman Heights Community Center",r:"sd",nh:"Sherman Heights",t:["cultural","art","holiday"],b:"Community altars, front-yard ofrendas, workshops, procession — preserves traditional Day of the Dead.",u:"https://shermanheightscc.org/diadelosmuertos",a:true},
+{d:"2026-11-01",de:"NOV 1–2",n:"Día de Muertos Tijuana",v:"Avenida Revolución & Pasaje Rodríguez",r:"tj",nh:"Tijuana",t:["cultural","holiday"],mx:true,b:"The oldest living Mexican tradition at full border-town scale — catrinas parade, cempasúchil carpets, pan de muerto stalls till midnight.",u:"https://www.tijuana.gob.mx/",a:true},
+{d:"2026-11-02",de:"NOV 2",n:"Tarde de Ofrendas (4th)",v:"Plaza Santo Tomás (Miramar)",r:"ens",nh:"Ensenada",t:["holiday","cultural","free"],mx:true,b:"4th annual Day of the Dead cultural event — family activities, traditional altar contest, Mexican food, wine sampling.",u:"https://provinobc.mx/eventos/"},
+{d:"2026-11-05",de:"NOV 5–14",n:"SD Asian Film Festival (27th)",v:"Various SD theaters",r:"sd",nh:"Multiple",t:["cultural","art","festival"],b:"Largest exhibition of Asian cinema on the West Coast.",u:"https://festival.sdaff.org/"},
+{d:"2026-11-06",de:"NOV 6–8",n:"SD Bay Wine + Food Festival",v:"Embarcadero Marina Park",r:"sd",nh:"Downtown",t:["food","festival"],b:"200+ wineries/spirits, 80+ West Coast & Baja chefs, Grand Tastings on San Diego Bay.",u:"https://www.sandiegowineclassic.com/"},
+{d:"2026-11-06",de:"NOV 6–15",n:"San Diego Beer Week",v:"Breweries county-wide",r:"sd",nh:"Multiple",t:["food","festival"],b:"Guild-produced 10-day celebration with Capital of Craft Beerfest kickoff at Kilowatt Brewing.",u:"https://www.sdbeer.com/sdbeerweek.html"},
+{d:"2026-11-11",de:"NOV 11",n:"SD Veterans Day Parade",v:"Harbor Drive",r:"sd",nh:"Downtown / Embarcadero",t:["cultural","parade","free"],b:"Largest Veterans Day parade on the West Coast; since 1987.",u:"https://sdvetparade.org/"},
+{d:"2026-11-13",de:"NOV 13",n:"Teddy Swims — The UGLY Tour 2026",v:"Pechanga Arena",r:"sd",nh:"Midway",t:["music"],b:"The viral soul/pop crossover at SD's 16k arena.",u:"https://www.axs.com/events/1401347/teddy-swims-tickets?skin=pasd"},
+{d:"2026-11-14",de:"NOV 14",n:"Tchaikovsky & Shostakovich w/ Daniil Trifonov",v:"Jacobs Music Center",r:"sd",nh:"Downtown",t:["music","cultural"],b:"The SD Symphony with pianist Daniil Trifonov — one of the classical events of the year.",u:"https://purchasing.sandiegosymphony.org/packages/fixed/1383"},
+{d:"2026-11-14",de:"NOV 14",n:"Los Tigres Del Norte",v:"Pechanga Arena",r:"sd",nh:"Midway",t:["music","cultural"],b:"Los Tigres return to SD — a multi-generational tradition.",u:"https://www.axs.com/events/1349592/los-tigres-del-norte-tickets?skin=pasd"},
+{d:"2026-11-20",de:"NOV 20 – JAN 3",n:"Skating by the Sea",v:"Hotel del Coronado",r:"sd",nh:"Coronado",t:["holiday"],rc:true,b:"Beachfront ice rink with Frostbite Lounges; benefits Make-A-Wish San Diego.",u:"https://www.hoteldel.com/events/skating-by-the-sea/"},
+{d:"2026-11-22",de:"NOV 22",n:"Encinitas Holiday Street Fair",v:"Coast Highway 101 (D St to J St)",r:"nc",nh:"Encinitas",t:["holiday","food","neighborhood","music","festival"],b:"Annual Sunday-before-Thanksgiving fair with 450+ vendors, four stages, kid/dog beer garden.",u:"https://www.encinitas101.com/holiday-street-fair"},
+
+// DECEMBER
+{d:"2026-12-04",de:"DEC 4",n:"Coronado Holiday Parade & Tree Lighting",v:"Orange Avenue",r:"sd",nh:"Coronado",t:["holiday","parade","neighborhood"],b:"Holiday parade culminates in lighting of the 120-ft tree at Rotary Plaza.",u:"https://coronadochamber.com/holiday-parade-tree-lighting/"},
+{d:"2026-12-04",de:"DEC 4–5",n:"December Nights at Balboa Park",v:"Balboa Park",r:"sd",nh:"Balboa Park",t:["holiday","cultural","music","food","festival","free"],b:"Largest free festival in SD — 350,000+ attendees, free museums at night, International Cottages food, carolers, holiday lights.",u:"https://www.sandiego.gov/december-nights",a:true},
+{d:"2026-12-05",de:"DEC 5",n:"Little Italy Tree Lighting & Christmas Village",v:"Piazza della Famiglia",r:"sd",nh:"Little Italy",t:["holiday","neighborhood"],b:"100+ vendors, nutcrackers, tree lighting, Santa meet-and-greet.",u:"https://www.littleitalysd.com/events/little-italy-tree-lighting"},
+{d:"2026-12-05",de:"DEC 5",n:"OB Holiday Parade (47th)",v:"Newport Avenue",r:"sd",nh:"Ocean Beach",t:["holiday","parade","neighborhood"],b:"47th annual — 100+ floats, ocean-themed beach holiday bash.",u:"https://obcommunityfoundation.org/community-events/ob-holiday-parade/"},
+{d:"2026-12-05",de:"DEC 5",n:"Encinitas Holiday Parade & Heritage Tree Lighting",v:"Coast Highway 101",r:"nc",nh:"Encinitas",t:["holiday","parade","neighborhood","music"],b:"Tree lighting at 4 PM precedes the illuminated parade along Hwy 101.",u:"https://www.encinitasca.gov/"},
+{d:"2026-12-05",de:"DEC 5",n:"Villa Navideña Tijuana",v:"Avenida Revolución",r:"tj",nh:"Tijuana",t:["holiday","free"],mx:true,rc:true,b:"Coca-Cola tree lighting opens the Villa Navideña — free ice skating, Christmas village, caroling, musicians, family stages. Runs through Jan 6.",u:"https://bajanews.mx/noticias/35501/Tijuana-se-llena-de-magia-inauguran-la-Villa-Navidena-en-la-Avenida-Revolucion"},
+{d:"2026-12-06",de:"DEC 6",n:"La Jolla Christmas Parade & Holiday Festival",v:"Girard & Kline",r:"sd",nh:"La Jolla",t:["holiday","parade","neighborhood"],b:"Floats, marching bands, vintage cars, Santa (and a camel); Santa's Village at La Jolla Rec.",u:"https://www.ljparade.com/"},
+{d:"2026-12-12",de:"DEC 12",n:"Mission Bay Christmas Boat Parade",v:"Mission Bay",r:"sd",nh:"Mission Bay",t:["holiday","parade"],b:"Decorated boats from SeaWorld to Crown Point; complements the bay parade.",u:"https://www.sandiego.org/events-festivals/mission-bay-parade-of-lights/4c417a48bf5611f0b563"},
+{d:"2026-12-12",de:"DEC 12",n:"Las Posadas (68th)",v:"Old Town San Diego State Historic Park",r:"sd",nh:"Old Town",t:["cultural","holiday"],b:"68th annual candlelit procession, live nativity at Casa de Estudillo, caroling, hot chocolate.",u:"https://www.oldtownsandiego.org/lasposadas/"},
+{d:"2026-12-12",de:"DEC 12–24",n:"Ensenada Malecón Tree Lighting & Navideño",v:"Ensenada Malecón",r:"ens",nh:"Ensenada",t:["holiday","cultural"],mx:true,rc:true,b:"Nightly waterfront performances, artisan booths, kids' activities on the Malecón.",u:"https://discoverbaja.com/"},
+{d:"2026-12-13",de:"DEC 13 & 20",n:"San Diego Bay Parade of Lights",v:"San Diego Bay (Shelter Island → Coronado)",r:"sd",nh:"Bay-wide",t:["holiday","parade"],b:"55th year — 80+ decorated boats on a 3+ hour parade across the bay, two Sundays.",u:"https://sdparadeoflights.org/",a:true},
+{d:"2026-12-16",de:"DEC 16–24",n:"Las Posadas (citywide Baja)",v:"Plazas across Baja Norte",r:"tj",nh:"TJ / Rosarito / Ensenada / Tecate / Valle",t:["holiday","cultural","neighborhood"],mx:true,rc:true,b:"Nine nights of candlelit processions re-enacting Mary and Joseph's search for shelter, piñatas, tamales, ponche.",u:"https://discoverbaja.com/"},
+{d:"2026-12-18",de:"DEC 18 – JAN 3",n:"San Diego Zoo Jungle Bells",v:"San Diego Zoo",r:"sd",nh:"Balboa Park",t:["holiday"],rc:true,b:"Holiday lights, Jingle Brass band, Santa visits, extended evening zoo hours — included with admission.",u:"https://zoo.sandiegozoo.org/jungle-bells"},
+{d:"2026-12-19",de:"DEC 19–21",n:"SD Symphony Noel Noel",v:"Jacobs Music Center",r:"sd",nh:"Downtown",t:["music","holiday"],b:"The SD Symphony's annual holiday pops — seasonal favorites and sing-alongs.",u:"https://www.sandiegosymphony.org/tickets-events/holiday-concerts/"},
+{d:"2026-12-31",de:"DEC 31",n:"NYE in the Gaslamp / Big Night SD",v:"Hilton San Diego Bayfront + Gaslamp",r:"sd",nh:"Downtown / Gaslamp",t:["holiday","music"],b:"One of SD's biggest NYE parties — 10 themed zones, 8 dance floors, DJs, open bar.",u:"https://bignightsandiego.com/"},
+{d:"2026-12-31",de:"DEC 31",n:"NYE Fireworks over the Bay",v:"San Diego Bay",r:"sd",nh:"Bay-wide",t:["holiday","free"],b:"Midnight fireworks from barges in the bay.",u:"https://portofsandiego.org/"},
+{d:"2026-12-31",de:"DEC 31",n:"Gran Fiesta de Año Nuevo",v:"Rosarito Beach Hotel",r:"ros",nh:"Rosarito",t:["holiday","music","food"],mx:true,b:"Buffet dinner, live mariachi, dance music, and cotillón to ring in 2027.",u:"https://www.bajacalifornia.travel/es/eventos/gran-fiesta-de-ano-nuevo"},
+{d:"2026-12-31",de:"DEC 31",n:"NYE at Valle Wineries",v:"El Cielo · Bruma · Cuatro Cuatros · Encuentro",r:"valle",nh:"Valle de Guadalupe",t:["wine","food","holiday","music"],mx:true,b:"Valley resorts host multi-course tasting dinners with midnight cava toasts.",u:"https://discoverbaja.com/"},
+{d:"2026-12-31",de:"DEC 31",n:"NYE Package at Puerto Nuevo Baja Hotel & Villas",v:"Puerto Nuevo Baja Hotel & Villas",r:"tec",nh:"Puerto Nuevo",t:["holiday","food","music"],mx:true,b:"Four-course NYE dinner with a Baja touch, live band Punto Clave, New Year's Day brunch.",u:"https://puertonuevohotelyvillas.com/en/new-year-eve-package-2026/"},
+
+// JANUARY 2027
+{d:"2027-01-01",de:"JAN 1",n:"New Year's Day Brunch — Puerto Nuevo",v:"Puerto Nuevo Baja Hotel & Villas",r:"tec",nh:"Puerto Nuevo",t:["food","holiday"],mx:true,b:"New Year's Day ocean-view brunch — menudo, bloody marys, Pacific sunset.",u:"https://puertonuevohotelyvillas.com/en/new-year-eve-package-2026/"},
+
+// RECURRING / SERIES
+{d:"2026-06-16",de:"TUE/WED/THU JUN 16 – AUG 27",n:"Twilight in the Park Free Concerts",v:"Spreckels Organ Pavilion",r:"sd",nh:"Balboa Park",t:["music","free"],rc:true,b:"45th year of free outdoor concerts — rock, jazz, mariachi, swing, tribute bands. Bring a picnic and a dog. 6:30–7:30 PM.",u:"https://balboapark.org/twilight-concerts/"},
+{d:"2026-06-22",de:"MONDAYS JUN 22 – SEP 4",n:"Summer International Organ Festival",v:"Spreckels Organ Pavilion",r:"sd",nh:"Balboa Park",t:["music","free","cultural"],rc:true,b:"Free Monday evening concerts on the world's largest outdoor pipe organ, curated by Raúl Prieto Ramírez.",u:"https://www.spreckelsorgan.org/summer-organ-festival"},
+{d:"2026-07-12",de:"SUN JUL 12 – AUG 2",n:"La Jolla Concerts by the Sea",v:"Scripps Park at La Jolla Cove",r:"sd",nh:"La Jolla",t:["music","free"],rc:true,b:"Free Sunday afternoon concerts hosted by Kiwanis Club of La Jolla (opens with Big Time Operator 7/12). 3:30–5:30 PM.",u:"http://www.ljconcertsbythesea.org/"},
+{d:"2026-05-23",de:"WEEKLY MAY 23 – OCT",n:"Summer Movies in the Park",v:"100+ parks countywide",r:"sd",nh:"Multiple",t:["cultural","free"],rc:true,b:"Largest free outdoor movie series in SD County; 15 min after sunset at Waterfront Park, Morley Field, and more.",u:"https://www.summermoviesinthepark.com/"},
+{d:"2026-06-19",de:"FRI JUN 19 – AUG 21",n:"Carlsbad TGIF Concerts in the Parks",v:"Stagecoach / Calavera Hills / Alga Norte Parks",r:"nc",nh:"Carlsbad",t:["music","free"],rc:true,b:"Free summer Friday concert series: Pistol Blonde, Sabrosas Latin Orchestra, 90s Rockshow, Flashpants, Daring Greatly.",u:"https://www.carlsbadca.gov/departments/cultural-arts/performing-arts/tgif-concerts-in-the-parks"},
+{d:"2026-07-12",de:"SUNDAYS JUL–AUG",n:"Moonlight Beach Summer Concerts",v:"Moonlight Beach",r:"nc",nh:"Encinitas",t:["music","free"],rc:true,b:"Free Sunday afternoon concerts on the sand.",u:"https://www.encinitasca.gov/"},
+{d:"2026-04-23",de:"EVERY THU 5–9 PM",n:"Oceanside Sunset Market",v:"Coast Hwy & Pier View Way",r:"nc",nh:"Oceanside",t:["food","music","neighborhood","free"],rc:true,b:"Weekly outdoor street fair — international food, live music, farmers market, 100+ craft vendors.",u:"https://www.mainstreetoceanside.com/sunset-market"},
+{d:"2026-05-01",de:"FIRST FRIDAY MONTHLY",n:"ArtWalk Liberty Station — First Friday",v:"Liberty Station",r:"sd",nh:"Point Loma",t:["art","free"],rc:true,b:"130+ artist studios, galleries, museums open late; SD's biggest monthly art walk. 5–9 PM.",u:"https://libertystation.com/events/first-friday-arts-district"},
+{d:"2026-05-09",de:"2ND SAT MONTHLY",n:"Ray at Night",v:"Ray Street",r:"sd",nh:"North Park",t:["art","neighborhood","free"],rc:true,b:"Oldest monthly art walk in San Diego; galleries on Ray Street open late.",u:"https://rayatnight.com"},
+{d:"2026-05-09",de:"2ND SAT MONTHLY",n:"Barrio Art Crawl",v:"Logan Avenue",r:"sd",nh:"Barrio Logan",t:["art","neighborhood","free"],rc:true,b:"Self-guided art walk through Barrio Logan's galleries and makerspaces.",u:"https://barrioartcrawl.com"},
+{d:"2026-04-26",de:"EVERY SUN 2 PM",n:"Spreckels Organ Sunday Concerts",v:"Spreckels Organ Pavilion",r:"sd",nh:"Balboa Park",t:["music","free","cultural"],rc:true,b:"Free year-round Sunday organ concerts on the world's largest outdoor pipe organ.",u:"https://www.spreckelsorgan.org/"},
+];
+
+// ============================================================
+// REGION / TYPE METADATA
+// ============================================================
+const regionMeta = {
+  sd: {name: "San Diego", color: "#1E5F8B", coords: [32.7157, -117.1611]},
+  nc: {name: "North County", color: "#F4A84C", coords: [33.1581, -117.3506]},
+  tj: {name: "Tijuana", color: "#E65A7A", coords: [32.5149, -117.0382]},
+  ros: {name: "Rosarito", color: "#C75B3A", coords: [32.3615, -117.0586]},
+  ens: {name: "Ensenada", color: "#B93656", coords: [31.8667, -116.5964]},
+  valle: {name: "Valle de Guadalupe", color: "#7BA05B", coords: [32.0856, -116.6022]},
+  tec: {name: "Puerto Nuevo / Tecate", color: "#D87D5B", coords: [32.2500, -116.9917]},
+};
+
+const TODAY = new Date("2026-04-22");
+
+// ============================================================
+// FILTER STATE
+// ============================================================
+let activeRegion = "all";
+let activeType = "all";
+let activeMonth = "all";
+
+// ============================================================
+// RENDER CARD
+// ============================================================
+function renderCard(ev) {
+  const types = ev.t || [];
+  const regionLabel = regionMeta[ev.r] ? regionMeta[ev.r].name : ev.r.toUpperCase();
+  const tagsHTML = types.map(t => `<span class="tag ${t}">${t}</span>`).join("");
+  const anchorBadge = ev.a ? `<span class="anchor-badge">ANCHOR</span>` : "";
+  const recurringBadge = ev.rc ? `<span class="recurring-badge">RECURRING</span>` : "";
+  const mxStamp = ev.mx ? `<span class="stamp">MX</span>` : "";
+  const mxTopStamp = ev.mx ? `<div class="mx-stamp">🛂 MX</div>` : "";
+
+  return `
+    <article class="event-card" data-region="${ev.r}" data-types="${types.join(' ')}">
+      <div class="card-band ${ev.r}"></div>
+      ${mxTopStamp}
+      <div class="card-body">
+        <div class="card-region">${regionLabel} · ${ev.nh || ""} ${mxStamp} ${anchorBadge} ${recurringBadge}</div>
+        <h3 class="card-title">${ev.n}</h3>
+        <div class="card-date-row">
+          <div class="card-date-chip">${ev.de}</div>
+          <div class="card-venue"><strong>${ev.v}</strong></div>
+        </div>
+        <p class="card-blurb">${ev.b}</p>
+        <div class="card-footer">
+          <div class="tag-row">${tagsHTML}</div>
+          <a href="${ev.u}" target="_blank" rel="noopener" class="card-link">Official ↗</a>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// ============================================================
+// FILTER + RENDER
+// ============================================================
+function applyFilters() {
+  const filtered = events.filter(ev => {
+    const regionMatch = activeRegion === "all" || ev.r === activeRegion ||
+      (activeRegion === "tec" && (ev.r === "tec" || ev.r === "pn"));
+    const typeMatch = activeType === "all" || (ev.t && ev.t.includes(activeType));
+    const monthMatch = activeMonth === "all" || (ev.d && ev.d.startsWith(activeMonth));
+    return regionMatch && typeMatch && monthMatch;
+  });
+
+  const sorted = [...filtered].sort((a, b) => a.d.localeCompare(b.d));
+  document.getElementById("events-grid").innerHTML = sorted.map(renderCard).join("");
+  document.getElementById("results-count").textContent =
+    `${sorted.length} event${sorted.length !== 1 ? 's' : ''} matching your filters`;
+}
+
+// ============================================================
+// COMING UP NEXT
+// ============================================================
+function renderComingUp() {
+  const upcoming = events
+    .filter(ev => {
+      const evDate = new Date(ev.d);
+      return evDate >= TODAY;
+    })
+    .sort((a, b) => a.d.localeCompare(b.d))
+    .slice(0, 6);
+
+  // Countdown to first event
+  if (upcoming.length > 0) {
+    const nextEv = upcoming[0];
+    const daysUntil = Math.max(0, Math.round((new Date(nextEv.d) - TODAY) / 86400000));
+    document.getElementById("countdown-container").innerHTML = `
+      <div class="countdown-row">
+        <div class="countdown-num">${daysUntil}</div>
+        <div class="countdown-text">
+          <div class="days">Days Until</div>
+          <div class="event">${nextEv.n}</div>
+          <div class="date-line">${nextEv.de} · ${nextEv.v}${nextEv.nh ? ", " + nextEv.nh : ""}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById("coming-up-grid").innerHTML =
+    upcoming.slice(0, 3).map(renderCard).join("");
+}
+
+// ============================================================
+// FILTER HANDLERS
+// ============================================================
+document.querySelectorAll("#region-filters .chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeRegion = btn.dataset.region;
+    applyFilters();
+  });
+});
+
+document.querySelectorAll("#type-filters .chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeType = btn.dataset.type;
+    applyFilters();
+  });
+});
+
+document.querySelectorAll("#month-filters .chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#month-filters .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeMonth = btn.dataset.month;
+    applyFilters();
+  });
+});
+
+// ============================================================
+// LEAFLET MAP
+// ============================================================
+const map = L.map("leaflet-map", {
+  center: [32.25, -117.0],
+  zoom: 9,
+  scrollWheelZoom: false,
+});
+
+L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: "abcd",
+  maxZoom: 19,
+}).addTo(map);
+
+// Add region markers
+Object.entries(regionMeta).forEach(([key, meta]) => {
+  const evCount = events.filter(e => e.r === key).length;
+  if (evCount === 0) return;
+  const icon = L.divIcon({
+    className: "",
+    html: `<div class="leaflet-pin" style="background:${meta.color};"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 24],
+  });
+  L.marker(meta.coords, {icon})
+    .addTo(map)
+    .bindPopup(`<strong>${meta.name}</strong>${evCount} event${evCount !== 1 ? 's' : ''} in this region`);
+});
+
+// Border marker
+L.polyline([[32.548, -117.125], [32.548, -116.8]], {
+  color: "#C75B3A",
+  weight: 2,
+  dashArray: "6, 6",
+  opacity: 0.7,
+}).addTo(map);
+
+// ============================================================
+// INIT
+// ============================================================
+document.getElementById("stat-events").textContent = events.length;
+document.getElementById("footer-count").textContent = events.length;
+renderComingUp();
+applyFilters();
+</script>
+
+</body>
+</html>
