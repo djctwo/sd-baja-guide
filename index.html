@@ -267,19 +267,109 @@
   .footer-col a:hover { color: var(--stucco); }
   .footer-col p { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; line-height: 1.5; color: rgba(245, 235, 208, 0.6); }
 
-  /* === ANCHOR CARD VARIATION IN MAIN GRID === */
-  .event-card.is-anchor { border: 2px solid var(--sun); position: relative; }
-  .event-card.is-anchor::before { content: "⭐ HEADLINER"; position: absolute; top: -1px; right: -1px; background: var(--sun); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; padding: 4px 10px; z-index: 2; border-bottom-left-radius: 2px; }
+  /* === ANCHOR CARD VARIATION IN MAIN GRID (top-LEFT corner, no border) === */
+  .event-card.is-anchor { position: relative; }
+  .event-card.is-anchor::before { content: "⭐ HEADLINER"; position: absolute; top: 14px; left: -4px; background: var(--sun); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; padding: 4px 10px; z-index: 2; box-shadow: 2px 2px 0 rgba(43,24,16,0.2); }
 
   /* === FAVORITE BUTTON === */
-  .fav-btn { position: absolute; top: 24px; right: 20px; width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(43, 24, 16, 0.18); background: rgba(255, 248, 229, 0.9); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; line-height: 1; transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease; z-index: 3; padding: 0; }
-  .fav-btn:hover { transform: scale(1.1); border-color: var(--pink); }
+  .fav-btn { position: absolute; top: 24px; right: 20px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(43, 24, 16, 0.18); background: rgba(255, 248, 229, 0.9); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; line-height: 1; transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease; z-index: 3; padding: 0; }
+  .fav-btn:hover { transform: scale(1.08); border-color: var(--pink); }
   .fav-btn.saved { background: var(--pink); border-color: var(--pink); color: #fff; }
-  .fav-btn.saved::before { content: "♥"; font-size: 17px; }
-  .fav-btn:not(.saved)::before { content: "♡"; font-size: 17px; color: var(--ink-quiet); }
-  .event-card.is-anchor .fav-btn { top: 32px; }
-  .fav-count-badge { display: inline-block; background: var(--pink); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 6px; line-height: 1.2; vertical-align: middle; }
+  .fav-btn.saved::before { content: "♥"; font-size: 20px; }
+  .fav-btn:not(.saved)::before { content: "♡"; font-size: 20px; color: var(--ink-quiet); }
+  .fav-btn.just-saved { animation: heartPop 0.5s ease; }
+  @keyframes heartPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35); }
+    70% { transform: scale(0.92); }
+    100% { transform: scale(1); }
+  }
+  .fav-count-badge { display: inline-block; background: var(--pink); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; margin-left: 6px; line-height: 1.1; vertical-align: middle; min-width: 18px; text-align: center; }
   .fav-count-badge.hidden { display: none; }
+  .fav-count-badge.pulse { animation: badgePulse 0.6s ease; }
+  @keyframes badgePulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.4); box-shadow: 0 0 0 6px rgba(233, 90, 122, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 90, 122, 0); }
+  }
+
+  /* === INLINE MX STAMP (replaces absolute-positioned one) === */
+  .mx-inline { display: inline-flex; align-items: center; gap: 3px; background: rgba(185, 54, 86, 0.12); color: var(--pink-deep); font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; padding: 2px 7px; border-radius: 2px; margin-left: 4px; }
+
+  /* === DATE CHIP + FREQUENCY LINE === */
+  .card-date-chip { white-space: nowrap; }
+  .card-frequency { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--ink-quiet); font-weight: 500; margin-top: 4px; line-height: 1.3; }
+
+  /* === COMPACT STICKY NAV (scrolled state) === */
+  .sticky-nav.compact #region-filters,
+  .sticky-nav.compact #month-filters,
+  .sticky-nav.compact #more-filters-toggle,
+  .sticky-nav.compact #more-filters { display: none; }
+  .sticky-nav.compact .active-summary { display: flex; }
+  .active-summary { display: none; gap: 8px; flex-wrap: wrap; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 32px 10px; }
+  .active-summary .active-pill { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 12px; background: var(--terracotta); color: var(--stucco); border-radius: 100px; }
+  .active-summary .expand-btn { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 14px; cursor: pointer; background: transparent; border: 1.5px solid var(--ink); color: var(--ink); border-radius: 2px; margin-left: auto; }
+  .active-summary .expand-btn:hover { background: var(--ink); color: var(--stucco); }
+
+  /* === HEADLINER RAIL — remove border, keep ribbon === */
+  .headliner-card { border: none !important; }
+
+  /* === MAP POPUP STYLING === */
+  .leaflet-popup-content-wrapper { background: var(--stucco) !important; border-radius: 2px !important; box-shadow: 0 4px 16px rgba(43, 24, 16, 0.25) !important; border: 1px solid var(--terracotta); }
+  .leaflet-popup-content { color: var(--ink); margin: 14px 18px !important; }
+  .leaflet-popup-content strong { color: var(--terracotta-deep); }
+  .leaflet-popup-tip { background: var(--stucco) !important; border: 1px solid var(--terracotta); }
+  .leaflet-container a.leaflet-popup-close-button { color: var(--ink-quiet) !important; }
+
+  /* === INTRO DECORATIVE ACCENT === */
+  .intro { position: relative; overflow: hidden; }
+  .intro::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='56' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='28' height='6' fill='%23C75B3A'/%3E%3Crect x='28' width='28' height='6' fill='%23E65A7A'/%3E%3C/svg%3E");
+    background-repeat: repeat-x; opacity: 0.9; }
+  .intro::after { content: ""; position: absolute; bottom: -40px; right: -40px; width: 240px; height: 240px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 240 L60 140 Q 60 60, 120 60 Q 180 60, 180 140 L180 240 Z' fill='%23C75B3A' opacity='0.08'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-size: contain; pointer-events: none; }
+
+  /* === HERO ACCENT: subtle sun disc (single, restrained) === */
+  .hero-accent-sun { position: absolute; top: 28%; right: 18%; width: 120px; height: 120px; border-radius: 50%; background: var(--mustard); opacity: 0.55; mix-blend-mode: multiply; z-index: 0; }
+  @media (max-width: 900px) { .hero-accent-sun { display: none; } }
+
+  /* === VENDIMIA PLANNER CALLOUT === */
+  .vendimia-callout { max-width: 1200px; margin: 0 auto; padding: 56px 32px; border-top: 1px solid rgba(43,24,16,0.12); border-bottom: 1px solid rgba(43,24,16,0.12); display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center; background: linear-gradient(135deg, rgba(123, 160, 91, 0.08) 0%, rgba(244, 168, 76, 0.08) 100%); }
+  .vendimia-visual { text-align: center; }
+  .vendimia-visual .grape-icon { font-size: 80px; line-height: 1; }
+  .vendimia-visual .label { font-family: 'Caveat', cursive; font-size: 28px; color: var(--vine); margin-top: 8px; }
+  .vendimia-content h3 { font-family: 'Fraunces', serif; font-weight: 900; font-size: 32px; line-height: 1.05; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.02em; }
+  .vendimia-content h3 em { font-style: italic; color: var(--vine); font-weight: 600; }
+  .vendimia-content p { font-family: 'Fraunces', serif; font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 16px; }
+  .vendimia-itinerary { display: grid; gap: 10px; margin-bottom: 18px; }
+  .vendimia-day { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 10px 14px; background: rgba(255, 248, 229, 0.8); border-left: 3px solid var(--vine); border-radius: 2px; }
+  .vendimia-day strong { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--vine); align-self: center; }
+  .vendimia-day span { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.35; }
+  .vendimia-cta { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; border: none; background: var(--vine); color: var(--stucco); text-decoration: none; box-shadow: 4px 4px 0 rgba(43,24,16,0.2); transition: transform 0.15s ease; }
+  .vendimia-cta:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 rgba(43,24,16,0.25); }
+  @media (max-width: 900px) { .vendimia-callout { grid-template-columns: 1fr; gap: 24px; padding: 40px 20px; } }
+
+  /* === END OF LIST MARKER === */
+  .end-of-list { grid-column: 1 / -1; text-align: center; padding: 56px 24px 20px; }
+  .end-of-list .tile-band { margin-bottom: 20px; }
+  .end-of-list p { font-family: 'Caveat', cursive; font-size: 26px; color: var(--terracotta-deep); margin-bottom: 14px; }
+  .end-of-list .back-top { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--ink); background: transparent; color: var(--ink); padding: 10px 20px; border-radius: 2px; }
+  .end-of-list .back-top:hover { background: var(--ink); color: var(--stucco); }
+
+  /* === FLOATING BACK TO TOP === */
+  .scroll-top { position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--stucco); border: none; cursor: pointer; font-size: 20px; line-height: 1; box-shadow: 0 6px 16px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.15s ease; z-index: 50; }
+  .scroll-top.visible { opacity: 1; pointer-events: auto; }
+  .scroll-top:hover { transform: translateY(-2px); background: var(--terracotta-deep); }
+
+  /* === KEYBOARD HINT === */
+  .kbd-hint { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-quiet); letter-spacing: 0.08em; margin-left: 10px; opacity: 0.6; }
+  .kbd-hint kbd { display: inline-block; padding: 1px 5px; border: 1px solid rgba(43,24,16,0.25); border-bottom-width: 2px; border-radius: 3px; background: #FFF8E5; font-family: monospace; font-size: 10px; color: var(--ink); }
+
+  /* === TOAST / SAVED CONFIRMATION === */
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: var(--stucco); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; padding: 12px 20px; border-radius: 2px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 60; opacity: 0; transition: opacity 0.2s ease, transform 0.3s ease; pointer-events: none; }
+  .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast .heart { color: var(--pink); margin-right: 6px; }
 
   @media (max-width: 900px) {
     .hero-right { min-height: 200px; }
@@ -320,6 +410,7 @@
     </div>
   </div>
   <div class="hero-right">
+    <div class="hero-accent-sun"></div>
     <div class="hero-shadow-block"></div>
     <div class="hero-arch">
       <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax meet">
@@ -345,7 +436,9 @@
       <button class="quick" data-quick="saved">♥ Saved <span class="fav-count-badge hidden" id="fav-count">0</span></button>
     </div>
     <button class="clear-btn" id="clear-all">Clear all</button>
+    <span class="kbd-hint" style="display: none;" id="kbd-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
   </div>
+  <div class="active-summary" id="active-summary"></div>
   <div class="filter-strip" id="region-filters">
     <span class="filter-label">Where</span>
     <button class="chip active" data-region="all">All</button>
@@ -411,6 +504,24 @@
         <li><strong>Vendimia</strong> 17 individual winery celebrations through August in the Valle — filter by Wine to see them all.</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- VENDIMIA PLANNER CALLOUT -->
+<section class="vendimia-callout">
+  <div class="vendimia-visual">
+    <div class="grape-icon">🍇</div>
+    <div class="label">las fiestas de la vendimia</div>
+  </div>
+  <div class="vendimia-content">
+    <h3>Planning a <em>Vendimia</em> weekend?</h3>
+    <p>The wine harvest runs late July through August across 17+ wineries in the Valle de Guadalupe — 90 minutes south of the border. Here's a starter three-day plan you can shape around your headliner picks.</p>
+    <div class="vendimia-itinerary">
+      <div class="vendimia-day"><strong>Fri Aug 7</strong><span>Cross at Tecate mid-afternoon. Muestra del Vino at Centro Cultural Riviera in Ensenada — 80 wineries, one room.</span></div>
+      <div class="vendimia-day"><strong>Sat Aug 8</strong><span>Monte Xanic morning grape-stomping (Sundays all August). L.A. Cetto "Fiesta de Colores" for lunch. Sunset at Cuatro Cuatros.</span></div>
+      <div class="vendimia-day"><strong>Sun Aug 9</strong><span>Late brunch at Finca Altozano or Deckman's. Drive back via Tecate before sundown to skip San Ysidro wait times.</span></div>
+    </div>
+    <a href="#" class="vendimia-cta" id="vendimia-filter-cta">See all 17 Vendimia events →</a>
   </div>
 </section>
 
@@ -514,6 +625,9 @@
     </div>
   </div>
 </footer>
+
+<button class="scroll-top" id="scroll-top" aria-label="Back to top">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -791,50 +905,85 @@ function saveFavs(favs) {
 }
 let favorites = loadFavs();
 function toggleFav(id) {
-  if (favorites.has(id)) favorites.delete(id);
-  else favorites.add(id);
+  const nowSaved = !favorites.has(id);
+  if (nowSaved) favorites.add(id);
+  else favorites.delete(id);
   saveFavs(favorites);
-  updateFavCount();
+  updateFavCount(nowSaved);
   // Update all matching fav buttons on page
   document.querySelectorAll(`.fav-btn[data-fav-id="${CSS.escape(id)}"]`).forEach(b => {
-    b.classList.toggle("saved", favorites.has(id));
-    b.setAttribute("aria-pressed", favorites.has(id));
+    b.classList.toggle("saved", nowSaved);
+    b.setAttribute("aria-pressed", nowSaved);
+    if (nowSaved) {
+      b.classList.remove("just-saved");
+      void b.offsetWidth;
+      b.classList.add("just-saved");
+    }
   });
+  showToast(nowSaved ? "Saved to your list" : "Removed from saved");
   // If currently filtering to saved, re-render to drop unsaved cards
   if (activeQuick === "saved") applyFilters();
 }
-function updateFavCount() {
+function updateFavCount(pulse) {
   const badge = document.getElementById("fav-count");
   const n = favorites.size;
   badge.textContent = n;
   badge.classList.toggle("hidden", n === 0);
+  if (pulse && n > 0) {
+    badge.classList.remove("pulse");
+    void badge.offsetWidth;
+    badge.classList.add("pulse");
+  }
+}
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById("toast");
+  el.innerHTML = `<span class="heart">♥</span>${msg}`;
+  el.classList.add("visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("visible"), 1800);
 }
 
 // ============================================================
 // RENDER CARD
 // ============================================================
+// Split a display-date string into a short primary chip + optional frequency line
+function splitDateDisplay(de) {
+  const frequencyMarkers = /^(EVERY |MONDAYS |TUESDAYS |WEDNESDAYS |THURSDAYS |FRIDAYS |SATURDAYS |SUNDAYS |WEEKLY |FIRST FRIDAY |2ND SAT |2ND SATURDAY |TUE\/WED\/THU |FRI )/i;
+  const match = de.match(frequencyMarkers);
+  if (match) {
+    const prefix = match[0].trim();
+    const remainder = de.slice(match[0].length).trim();
+    return { primary: remainder || prefix, secondary: remainder ? prefix : "" };
+  }
+  return { primary: de, secondary: "" };
+}
+
 function renderCard(ev) {
   const types = ev.t || [];
   const regionLabel = regionMeta[ev.r] ? regionMeta[ev.r].name : ev.r.toUpperCase();
   const tagsHTML = types.map(t => `<span class="tag ${t}">${t}</span>`).join("");
   const recurringBadge = ev.rc ? `<span class="recurring-badge">RECURRING</span>` : "";
-  const mxStamp = ev.mx ? `<span class="stamp">MX</span>` : "";
-  const mxTopStamp = ev.mx ? `<div class="mx-stamp">🛂 MX</div>` : "";
+  const mxPill = ev.mx ? `<span class="mx-inline">🛂 MX</span>` : "";
   const anchorClass = ev.a ? " is-anchor" : "";
   const id = eventId(ev);
   const isSaved = favorites.has(id);
   const favLabel = isSaved ? "Remove from saved" : "Save event";
+  const { primary, secondary } = splitDateDisplay(ev.de);
+  const freqLine = secondary ? `<div class="card-frequency">${secondary}</div>` : "";
 
   return `
     <article class="event-card${anchorClass}" data-region="${ev.r}" data-types="${types.join(' ')}">
       <div class="card-band ${ev.r}"></div>
-      ${mxTopStamp}
       <button class="fav-btn ${isSaved ? 'saved' : ''}" data-fav-id="${id.replace(/"/g, '&quot;')}" aria-label="${favLabel}" aria-pressed="${isSaved}" title="${favLabel}"></button>
       <div class="card-body">
-        <div class="card-region">${regionLabel} · ${ev.nh || ""} ${mxStamp} ${recurringBadge}</div>
+        <div class="card-region">${regionLabel} · ${ev.nh || ""} ${mxPill} ${recurringBadge}</div>
         <h3 class="card-title">${ev.n}</h3>
         <div class="card-date-row">
-          <div class="card-date-chip">${ev.de}</div>
+          <div>
+            <div class="card-date-chip">${primary}</div>
+            ${freqLine}
+          </div>
           <div class="card-venue"><strong>${ev.v}</strong></div>
         </div>
         <p class="card-blurb">${ev.b}</p>
@@ -934,15 +1083,43 @@ function applyFilters() {
 
   const sorted = [...filtered].sort((a, b) => a.d.localeCompare(b.d));
   const grid = document.getElementById("events-grid");
-  grid.innerHTML = sorted.length === 0 ? renderEmptyState() : sorted.map(renderCard).join("");
   const total = sorted.length;
+  if (total === 0) {
+    grid.innerHTML = renderEmptyState();
+  } else {
+    const endMarker = `
+      <div class="end-of-list">
+        <div class="tile-band"></div>
+        <p>That's all ${total} event${total !== 1 ? 's' : ''} — ¡gracias por ver!</p>
+        <button class="back-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Back to top</button>
+      </div>
+    `;
+    grid.innerHTML = sorted.map(renderCard).join("") + endMarker;
+  }
   document.getElementById("results-count").innerHTML =
     total > 0
       ? `Showing <strong>${total}</strong> event${total !== 1 ? 's' : ''}`
       : `<strong>0</strong> matches — try relaxing a filter`;
 
   updateClearButton();
+  updateActiveSummary();
   updateURL();
+}
+
+function updateActiveSummary() {
+  const summary = document.getElementById("active-summary");
+  const parts = [];
+  if (activeRegion !== "all") parts.push(`Where: ${regionMeta[activeRegion]?.name || activeRegion}`);
+  if (activeMonth !== "all") {
+    const monthBtn = document.querySelector(`#month-filters .chip[data-month="${activeMonth}"]`);
+    parts.push(`When: ${monthBtn ? monthBtn.textContent : activeMonth}`);
+  }
+  if (activeType !== "all") parts.push(`Type: ${activeType}`);
+  if (activeQuick) parts.push(`Quick: ${activeQuick}`);
+  if (searchQuery) parts.push(`Search: "${searchQuery.slice(0, 20)}${searchQuery.length > 20 ? '…' : ''}"`);
+  summary.innerHTML = parts.length
+    ? parts.map(p => `<span class="active-pill">${p}</span>`).join("") + `<button class="expand-btn" onclick="document.querySelector('.sticky-nav').classList.remove('compact'); window.scrollTo({top: document.querySelector('.sticky-nav').offsetTop, behavior: 'smooth'});">Expand filters ↓</button>`
+    : "";
 }
 
 function updateClearButton() {
@@ -1128,6 +1305,69 @@ document.addEventListener("click", (e) => {
   e.stopPropagation();
   const id = btn.dataset.favId;
   if (id) toggleFav(id);
+});
+
+// Scroll behaviors — compact nav + back-to-top
+const stickyNav = document.querySelector(".sticky-nav");
+const scrollTopBtn = document.getElementById("scroll-top");
+const heroEl = document.querySelector(".hero");
+let lastScroll = 0;
+window.addEventListener("scroll", () => {
+  const y = window.scrollY;
+  const heroBottom = heroEl.offsetHeight;
+  // Compact nav once user has scrolled past the hero
+  stickyNav.classList.toggle("compact", y > heroBottom + 80);
+  // Back to top button
+  scrollTopBtn.classList.toggle("visible", y > heroBottom * 1.5);
+  lastScroll = y;
+}, {passive: true});
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({top: 0, behavior: "smooth"});
+});
+
+// Keyboard shortcuts — Alex power user
+const searchInput = document.getElementById("search-input");
+const kbdHint = document.getElementById("kbd-hint");
+// Show keyboard hint only on devices with a real keyboard (no touchscreen)
+if (!("ontouchstart" in window) && window.matchMedia("(min-width: 900px)").matches) {
+  kbdHint.style.display = "inline";
+}
+document.addEventListener("keydown", (e) => {
+  const isTypingInField = e.target.matches("input, textarea, [contenteditable]");
+  // "/" focuses search
+  if (e.key === "/" && !isTypingInField) {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  }
+  // Esc clears search first, then all filters
+  if (e.key === "Escape") {
+    if (isTypingInField) {
+      searchInput.blur();
+    } else if (searchQuery) {
+      searchQuery = "";
+      searchInput.value = "";
+      applyFilters();
+    } else if (activeRegion !== "all" || activeType !== "all" || activeMonth !== "all" || activeQuick) {
+      clearAllFilters();
+      showToast("All filters cleared");
+    }
+  }
+});
+
+// Vendimia CTA — filter to Valle + Wine
+document.getElementById("vendimia-filter-cta").addEventListener("click", (e) => {
+  e.preventDefault();
+  clearAllFilters();
+  activeRegion = "valle";
+  activeType = "wine";
+  document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === "valle"));
+  document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === "wine"));
+  document.getElementById("more-filters").classList.add("open");
+  document.getElementById("more-filters-toggle").classList.add("open");
+  applyFilters();
+  document.getElementById("all-events-section").scrollIntoView({behavior: "smooth"});
 });
 
 // ============================================================
