@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>San Diego × Baja — A Field Guide to Festivals, Music & Events</title>
 <meta name="description" content="Every festival, concert, neighborhood block party, wine country harvest, and holiday market worth the drive across San Diego and Baja California — April 2026 through January 2027.">
+<meta property="og:title" content="San Diego × Baja — A Field Guide">
+<meta property="og:description" content="195+ curated events from North Park to Valle de Guadalupe. April 2026 → January 2027.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://djctwo.github.io/sd-baja-guide/">
+<meta name="theme-color" content="#C75B3A">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F5EBD0'/%3E%3Cpath d='M32 8 L48 32 L32 56 L16 32 Z' fill='%23C75B3A'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23E65A7A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,900;1,9..144,600&family=DM+Sans:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
@@ -168,6 +174,115 @@
   .leaflet-popup-content-wrapper { border-radius: 2px; }
   .leaflet-popup-content { font-family: 'DM Sans', sans-serif; font-size: 13px; }
   .leaflet-popup-content strong { font-family: 'Fraunces', serif; font-weight: 700; font-size: 15px; display: block; margin-bottom: 4px; }
+
+  /* === HERO PRIMARY CTA === */
+  .hero-ctas { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; border: none; text-decoration: none; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .hero-cta.primary { background: var(--ink); color: var(--stucco); box-shadow: 6px 6px 0 var(--terracotta); }
+  .hero-cta.primary:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--terracotta); }
+  .hero-cta.secondary { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+  .hero-cta.secondary:hover { background: var(--ink); color: var(--stucco); }
+  .hero-cta .arrow { font-family: 'Fraunces', serif; font-weight: 900; font-size: 16px; }
+
+  /* === SEARCH + QUICK FILTERS === */
+  .nav-utility { max-width: 1400px; margin: 0 auto; padding: 18px 32px 10px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .search-box { flex: 1; min-width: 260px; position: relative; }
+  .search-box input { width: 100%; padding: 12px 18px 12px 44px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: #FFF8E5; border: 1.5px solid rgba(43, 24, 16, 0.18); border-radius: 2px; outline: none; transition: border-color 0.15s ease; }
+  .search-box input:focus { border-color: var(--terracotta); }
+  .search-box::before { content: "🔍"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.5; }
+  .quick-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .quick { padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--terracotta); background: transparent; color: var(--terracotta-deep); border-radius: 2px; transition: all 0.15s ease; }
+  .quick:hover { background: var(--terracotta); color: var(--stucco); }
+  .quick.active { background: var(--terracotta); color: var(--stucco); }
+  .clear-btn { padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--ink); background: var(--ink); color: var(--stucco); border-radius: 2px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+  .clear-btn.visible { opacity: 1; pointer-events: auto; }
+  .clear-btn:hover { background: var(--pink-deep); border-color: var(--pink-deep); }
+
+  /* === COLLAPSIBLE FILTERS === */
+  .filter-toggle { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; background: transparent; border: none; border-top: 1px solid rgba(43, 24, 16, 0.1); width: 100%; max-width: 1400px; margin: 0 auto; text-align: left; justify-content: space-between; }
+  .filter-toggle:hover { color: var(--ink); }
+  .filter-toggle .caret { font-size: 14px; transition: transform 0.2s ease; }
+  .filter-toggle.open .caret { transform: rotate(180deg); }
+  #more-filters { display: none; }
+  #more-filters.open { display: block; }
+
+  /* === SECTION DIVIDERS (replacing 01/02/03) === */
+  .section-divider { display: flex; align-items: center; gap: 20px; max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+  .section-divider .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(43,24,16,0.25), transparent); }
+  .section-divider .ornament { color: var(--terracotta); font-family: 'Fraunces', serif; font-weight: 900; font-size: 20px; letter-spacing: 0.2em; }
+  .section-head-clean { text-align: center; max-width: 1400px; margin: 0 auto; padding: 10px 32px 48px; }
+  .section-head-clean .section-kicker { font-family: 'Caveat', cursive; font-size: 24px; color: var(--pink); margin-bottom: 4px; display: block; }
+  .section-head-clean .section-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); letter-spacing: -0.02em; line-height: 1; color: var(--ink); }
+  .section-head-clean .section-title em { font-style: italic; color: var(--terracotta-deep); font-weight: 900; }
+  .section-head-clean .section-bilingual { margin-top: 12px; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-quiet); }
+
+  /* === ABOUT / INTRO === */
+  .intro { background: var(--stucco-2); padding: 80px 32px; }
+  .intro-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .intro-col h3 { font-family: 'Fraunces', serif; font-weight: 900; font-size: 28px; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 14px; }
+  .intro-col h3 em { font-style: italic; color: var(--terracotta-deep); font-weight: 600; }
+  .intro-col p { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 14px; }
+  .intro-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+  .intro-list li { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); display: flex; gap: 10px; }
+  .intro-list li strong { display: inline-block; min-width: 70px; font-weight: 700; color: var(--terracotta-deep); letter-spacing: 0.08em; font-size: 11px; text-transform: uppercase; padding-top: 2px; }
+
+  /* === HEADLINERS === */
+  .headliners { background: var(--ink); color: var(--stucco); padding: 80px 32px; }
+  .headliners .section-head-clean { padding-bottom: 36px; }
+  .headliners .section-head-clean .section-title { color: var(--stucco); }
+  .headliners .section-head-clean .section-title em { color: var(--pink); }
+  .headliners .section-head-clean .section-kicker { color: var(--sun); }
+  .headliners .section-head-clean .section-bilingual { color: rgba(245, 235, 208, 0.6); }
+  .headliners-rail { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  .headliner-card { background: #FFF8E5; color: var(--ink); border-radius: 2px; overflow: hidden; position: relative; box-shadow: 12px 12px 0 -4px rgba(0,0,0,0.4); transition: transform 0.25s ease, box-shadow 0.25s ease; text-decoration: none; display: flex; flex-direction: column; border: 3px solid var(--sun); }
+  .headliner-card:hover { transform: translate(-4px, -4px); box-shadow: 16px 16px 0 -4px rgba(0,0,0,0.5); }
+  .headliner-card .hl-ribbon { position: absolute; top: 14px; left: -4px; background: var(--sun); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; padding: 4px 12px; z-index: 2; }
+  .headliner-card .hl-ribbon::after { content: ""; position: absolute; left: 0; top: 100%; border-top: 4px solid var(--mustard); border-left: 4px solid transparent; }
+  .headliner-card .hl-body { padding: 48px 28px 26px; flex: 1; display: flex; flex-direction: column; }
+  .headliner-card .hl-region { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--terracotta-deep); margin-bottom: 10px; }
+  .headliner-card .hl-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: 30px; line-height: 1.02; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 10px; }
+  .headliner-card .hl-date { font-family: 'Fraunces', serif; font-weight: 900; font-style: italic; font-size: 18px; color: var(--terracotta-deep); margin-bottom: 8px; }
+  .headliner-card .hl-venue { font-size: 12px; color: var(--ink-soft); margin-bottom: 12px; }
+  .headliner-card .hl-blurb { font-family: 'Fraunces', serif; font-size: 14px; line-height: 1.5; color: var(--ink-soft); flex: 1; }
+
+  /* === EMPTY STATE === */
+  .empty-state { grid-column: 1 / -1; text-align: center; padding: 72px 32px; background: #FFF8E5; border: 2px dashed rgba(43, 24, 16, 0.25); border-radius: 4px; }
+  .empty-state .empty-kicker { font-family: 'Caveat', cursive; font-size: 28px; color: var(--pink); margin-bottom: 10px; display: block; }
+  .empty-state h3 { font-family: 'Fraunces', serif; font-weight: 900; font-size: 32px; color: var(--ink); margin-bottom: 14px; letter-spacing: -0.02em; }
+  .empty-state p { font-family: 'Fraunces', serif; font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .empty-state .empty-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .empty-state .empty-ctas button { padding: 11px 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--ink); background: var(--ink); color: var(--stucco); border-radius: 2px; transition: transform 0.15s ease; }
+  .empty-state .empty-ctas button.alt { background: transparent; color: var(--ink); }
+  .empty-state .empty-ctas button:hover { transform: translateY(-2px); }
+
+  /* === RESULTS COUNT (now DM Sans, not Caveat) === */
+  .results-count-clean { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-quiet); text-align: center; margin-bottom: 28px; }
+  .results-count-clean strong { color: var(--terracotta-deep); font-weight: 700; }
+
+  /* === EXPANDED FOOTER === */
+  .footer-grid { max-width: 1200px; margin: 0 auto 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 36px; text-align: left; }
+  .footer-col h4 { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--sun); margin-bottom: 14px; }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .footer-col a { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(245, 235, 208, 0.75); text-decoration: none; transition: color 0.15s ease; }
+  .footer-col a:hover { color: var(--stucco); }
+  .footer-col p { font-family: 'Fraunces', serif; font-style: italic; font-size: 13px; line-height: 1.5; color: rgba(245, 235, 208, 0.6); }
+
+  /* === ANCHOR CARD VARIATION IN MAIN GRID === */
+  .event-card.is-anchor { border: 2px solid var(--sun); position: relative; }
+  .event-card.is-anchor::before { content: "⭐ HEADLINER"; position: absolute; top: -1px; right: -1px; background: var(--sun); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; padding: 4px 10px; z-index: 2; border-bottom-left-radius: 2px; }
+
+  @media (max-width: 900px) {
+    .hero-right { min-height: 200px; }
+    .hero-right .hero-sun, .hero-right .hero-note { display: none; }
+    .hero-ctas { gap: 10px; }
+    .hero-cta { padding: 12px 18px; font-size: 12px; }
+    .intro-inner { grid-template-columns: 1fr; gap: 32px; }
+    .headliners-rail { grid-template-columns: 1fr; }
+    .nav-utility { padding: 14px 16px 6px; }
+    .section-head-clean { padding: 10px 16px 32px; }
+    .section-head-clean .section-title { font-size: 32px; }
+    .footer-grid { text-align: center; }
+  }
 </style>
 </head>
 <body>
@@ -189,9 +304,12 @@
       <div class="stat"><span class="stat-num">2</span><span class="stat-label">Countries</span></div>
       <div class="stat"><span class="stat-num">9</span><span class="stat-label">Months</span></div>
     </div>
+    <div class="hero-ctas">
+      <a href="#all-events-section" class="hero-cta primary">Browse all events <span class="arrow">→</span></a>
+      <a href="#headliners" class="hero-cta secondary">See the headliners</a>
+    </div>
   </div>
   <div class="hero-right">
-    <div class="hero-sun"></div>
     <div class="hero-shadow-block"></div>
     <div class="hero-arch">
       <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax meet">
@@ -205,8 +323,20 @@
 
 <!-- STICKY FILTERS -->
 <nav class="sticky-nav">
+  <div class="nav-utility">
+    <div class="search-box">
+      <input type="search" id="search-input" placeholder="Search events, venues, neighborhoods…" autocomplete="off">
+    </div>
+    <div class="quick-row">
+      <button class="quick" data-quick="weekend">This weekend</button>
+      <button class="quick" data-quick="month">This month</button>
+      <button class="quick" data-quick="free">Free</button>
+      <button class="quick" data-quick="anchor">⭐ Headliners</button>
+    </div>
+    <button class="clear-btn" id="clear-all">Clear all</button>
+  </div>
   <div class="filter-strip" id="region-filters">
-    <span class="filter-label">Region</span>
+    <span class="filter-label">Where</span>
     <button class="chip active" data-region="all">All</button>
     <button class="chip" data-region="sd"><span class="dot sd"></span>San Diego</button>
     <button class="chip" data-region="nc"><span class="dot nc"></span>North County</button>
@@ -216,22 +346,8 @@
     <button class="chip" data-region="valle"><span class="dot valle"></span>Valle de Guadalupe</button>
     <button class="chip" data-region="tec"><span class="dot tec"></span>Tecate / Puerto Nuevo</button>
   </div>
-  <div class="tile-band"></div>
-  <div class="filter-strip" id="type-filters" style="padding-top: 14px;">
-    <span class="filter-label">Type</span>
-    <button class="chip active" data-type="all">All</button>
-    <button class="chip" data-type="music">Music</button>
-    <button class="chip" data-type="festival">Festival</button>
-    <button class="chip" data-type="food">Food</button>
-    <button class="chip" data-type="wine">Wine</button>
-    <button class="chip" data-type="art">Art</button>
-    <button class="chip" data-type="cultural">Cultural</button>
-    <button class="chip" data-type="holiday">Holiday</button>
-    <button class="chip" data-type="neighborhood">Neighborhood</button>
-    <button class="chip" data-type="free">Free</button>
-  </div>
-  <div class="filter-strip" id="month-filters" style="padding-top: 0; padding-bottom: 18px;">
-    <span class="filter-label">Month</span>
+  <div class="filter-strip" id="month-filters">
+    <span class="filter-label">When</span>
     <button class="chip active" data-month="all">All</button>
     <button class="chip" data-month="2026-04">Apr '26</button>
     <button class="chip" data-month="2026-05">May '26</button>
@@ -244,19 +360,57 @@
     <button class="chip" data-month="2026-12">Dec '26</button>
     <button class="chip" data-month="2027-01">Jan '27</button>
   </div>
+  <button class="filter-toggle" id="more-filters-toggle" aria-expanded="false">
+    <span>More filters · Type</span>
+    <span class="caret">▾</span>
+  </button>
+  <div id="more-filters">
+    <div class="filter-strip" id="type-filters" style="padding-top: 4px;">
+      <span class="filter-label">Type</span>
+      <button class="chip active" data-type="all">All</button>
+      <button class="chip" data-type="music">Music</button>
+      <button class="chip" data-type="festival">Festival</button>
+      <button class="chip" data-type="food">Food</button>
+      <button class="chip" data-type="wine">Wine</button>
+      <button class="chip" data-type="art">Art</button>
+      <button class="chip" data-type="cultural">Cultural</button>
+      <button class="chip" data-type="holiday">Holiday</button>
+      <button class="chip" data-type="neighborhood">Neighborhood</button>
+      <button class="chip" data-type="free">Free</button>
+    </div>
+  </div>
 </nav>
+
+<!-- INTRO / ABOUT -->
+<section class="intro">
+  <div class="intro-inner">
+    <div class="intro-col">
+      <h3>What this <em>is</em></h3>
+      <p>A field guide to every festival, concert, neighborhood block party, wine-country harvest, and holiday market worth the drive — from the North Park sidewalks to the vineyards of the Valle de Guadalupe.</p>
+      <p>Nine months of events across two countries, curated into one map and one list. No sports, no padding, no duplicates. If it's here, it's worth your weekend.</p>
+    </div>
+    <div class="intro-col">
+      <h3>How to <em>use it</em></h3>
+      <ul class="intro-list">
+        <li><strong>Search</strong> Type a venue, neighborhood, or artist in the box above.</li>
+        <li><strong>Where</strong> Filter by region — San Diego, North County, or one of four Baja cities.</li>
+        <li><strong>When</strong> Pick a month, or try "This weekend" for what's close.</li>
+        <li><strong>Baja</strong> Any card with a 🛂 stamp needs a border crossing. SENTRI recommended.</li>
+        <li><strong>Vendimia</strong> 17 individual winery celebrations through August in the Valle — filter by Wine to see them all.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <!-- MAP -->
 <section class="map-wrap">
-  <div class="section" style="padding-top: 20px; padding-bottom: 20px;">
-    <div class="section-head">
-      <div class="section-number">01</div>
-      <div class="section-heading-group">
-        <span class="section-kicker">el mapa</span>
-        <h2 class="section-title">The <em>Region</em>, Plotted</h2>
-        <div class="section-bilingual">From La Jolla to the Valle de Guadalupe</div>
-      </div>
-    </div>
+  <div class="section-divider"><span class="line"></span><span class="ornament">✶ el mapa ✶</span><span class="line"></span></div>
+  <div class="section-head-clean">
+    <span class="section-kicker">la región</span>
+    <h2 class="section-title">The <em>Region</em>, Plotted</h2>
+    <div class="section-bilingual">From La Jolla to the Valle de Guadalupe</div>
+  </div>
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 32px;">
     <div id="leaflet-map"></div>
     <div class="map-legend">
       <div class="legend-item"><span class="legend-swatch" style="background:var(--cobalt)"></span> San Diego</div>
@@ -271,43 +425,81 @@
 
 <!-- COMING UP -->
 <section class="featured">
+  <div class="section-divider" style="opacity: 0.5;"><span class="line" style="background:linear-gradient(90deg, transparent, rgba(245,235,208,0.3), transparent);"></span><span class="ornament" style="color: var(--sun);">✶ próximamente ✶</span><span class="line" style="background:linear-gradient(90deg, transparent, rgba(245,235,208,0.3), transparent);"></span></div>
+  <div class="section-head-clean">
+    <span class="section-kicker" style="color: var(--sun);">what's next</span>
+    <h2 class="section-title" style="color: var(--stucco);">Coming <em style="color: var(--pink);">Up</em> Next</h2>
+    <div class="section-bilingual" style="color: rgba(245,235,208,0.7);">The next events on both sides of the line</div>
+  </div>
   <div class="section">
-    <div class="section-head">
-      <div class="section-number">02</div>
-      <div class="section-heading-group">
-        <span class="section-kicker">próximamente</span>
-        <h2 class="section-title">Coming <em>Up</em> Next</h2>
-        <div class="section-bilingual">The next events on both sides of the line</div>
-      </div>
-    </div>
     <div id="countdown-container"></div>
     <div class="grid" id="coming-up-grid"></div>
   </div>
 </section>
 
-<!-- ALL EVENTS -->
-<section class="section" id="all-events-section">
-  <div class="section-head">
-    <div class="section-number">03</div>
-    <div class="section-heading-group">
-      <span class="section-kicker">la colección completa</span>
-      <h2 class="section-title">Every <em>Event</em></h2>
-      <div class="section-bilingual">Chronological · April 2026 → January 2027</div>
-    </div>
+<!-- HEADLINERS -->
+<section class="headliners" id="headliners">
+  <div class="section-divider" style="opacity: 0.5;"><span class="line" style="background:linear-gradient(90deg, transparent, rgba(244,168,76,0.4), transparent);"></span><span class="ornament" style="color: var(--sun);">⭐ LOS GRANDES ⭐</span><span class="line" style="background:linear-gradient(90deg, transparent, rgba(244,168,76,0.4), transparent);"></span></div>
+  <div class="section-head-clean">
+    <span class="section-kicker">don't miss these</span>
+    <h2 class="section-title">The <em>Headliners</em></h2>
+    <div class="section-bilingual">The 20 can't-miss events of the year</div>
   </div>
-  <div class="results-count" id="results-count"></div>
+  <div class="headliners-rail" id="headliners-rail"></div>
+</section>
+
+<!-- ALL EVENTS -->
+<section class="section" id="all-events-section" style="padding: 80px 32px;">
+  <div class="section-divider"><span class="line"></span><span class="ornament">✶ todo / every ✶</span><span class="line"></span></div>
+  <div class="section-head-clean">
+    <span class="section-kicker">la colección completa</span>
+    <h2 class="section-title">Every <em>Event</em></h2>
+    <div class="section-bilingual">Chronological · April 2026 → January 2027</div>
+  </div>
+  <div class="results-count-clean" id="results-count"></div>
   <div class="grid" id="events-grid"></div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-title">San Diego <em>&amp; Baja</em></div>
-  <div class="footer-tagline">un solo mapa · one guide</div>
-  <div class="footer-meta">
-    <span id="footer-count">—</span> events · Apr 2026 → Jan 2027 · Updated continuously
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>San Diego</h4>
+      <ul>
+        <li><a href="#" data-footer-region="sd">All SD events</a></li>
+        <li><a href="#" data-footer-region="sd" data-footer-type="music">Music in SD</a></li>
+        <li><a href="#" data-footer-region="sd" data-footer-type="neighborhood">Block parties</a></li>
+        <li><a href="#" data-footer-region="sd" data-footer-type="holiday">Holiday season</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>North County</h4>
+      <ul>
+        <li><a href="#" data-footer-region="nc">All NC events</a></li>
+        <li><a href="#" data-footer-region="nc" data-footer-type="food">Food festivals</a></li>
+        <li><a href="#" data-footer-region="nc" data-footer-type="neighborhood">Village faires</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Baja California</h4>
+      <ul>
+        <li><a href="#" data-footer-region="tj">Tijuana</a></li>
+        <li><a href="#" data-footer-region="ros">Rosarito</a></li>
+        <li><a href="#" data-footer-region="ens">Ensenada</a></li>
+        <li><a href="#" data-footer-region="valle">Valle de Guadalupe</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <p>A public, curated field guide to everything worth the drive across San Diego and Baja California. Updated continuously. No sports, no padding.</p>
+    </div>
   </div>
-  <div style="margin-top: 24px; font-size: 11px; color: rgba(245, 235, 208, 0.4); letter-spacing: 0.16em;">
-    Made in Kaiserslautern · Curated with love for the region
+  <div style="border-top: 1px solid rgba(245,235,208,0.15); padding-top: 32px; max-width: 1200px; margin: 0 auto;">
+    <div class="footer-title">San Diego <em>&amp; Baja</em></div>
+    <div class="footer-tagline">un solo mapa · one guide</div>
+    <div class="footer-meta">
+      <span id="footer-count">—</span> events · Apr 2026 → Jan 3, 2027
+    </div>
   </div>
 </footer>
 
@@ -573,6 +765,8 @@ const TODAY = new Date("2026-04-22");
 let activeRegion = "all";
 let activeType = "all";
 let activeMonth = "all";
+let activeQuick = null;
+let searchQuery = "";
 
 // ============================================================
 // RENDER CARD
@@ -581,17 +775,17 @@ function renderCard(ev) {
   const types = ev.t || [];
   const regionLabel = regionMeta[ev.r] ? regionMeta[ev.r].name : ev.r.toUpperCase();
   const tagsHTML = types.map(t => `<span class="tag ${t}">${t}</span>`).join("");
-  const anchorBadge = ev.a ? `<span class="anchor-badge">ANCHOR</span>` : "";
   const recurringBadge = ev.rc ? `<span class="recurring-badge">RECURRING</span>` : "";
   const mxStamp = ev.mx ? `<span class="stamp">MX</span>` : "";
   const mxTopStamp = ev.mx ? `<div class="mx-stamp">🛂 MX</div>` : "";
+  const anchorClass = ev.a ? " is-anchor" : "";
 
   return `
-    <article class="event-card" data-region="${ev.r}" data-types="${types.join(' ')}">
+    <article class="event-card${anchorClass}" data-region="${ev.r}" data-types="${types.join(' ')}">
       <div class="card-band ${ev.r}"></div>
       ${mxTopStamp}
       <div class="card-body">
-        <div class="card-region">${regionLabel} · ${ev.nh || ""} ${mxStamp} ${anchorBadge} ${recurringBadge}</div>
+        <div class="card-region">${regionLabel} · ${ev.nh || ""} ${mxStamp} ${recurringBadge}</div>
         <h3 class="card-title">${ev.n}</h3>
         <div class="card-date-row">
           <div class="card-date-chip">${ev.de}</div>
@@ -607,22 +801,154 @@ function renderCard(ev) {
   `;
 }
 
+function renderHeadliner(ev) {
+  const regionLabel = regionMeta[ev.r] ? regionMeta[ev.r].name : ev.r.toUpperCase();
+  const mxStamp = ev.mx ? " 🛂" : "";
+  return `
+    <a href="${ev.u}" target="_blank" rel="noopener" class="headliner-card">
+      <div class="hl-ribbon">⭐ Headliner</div>
+      <div class="card-band ${ev.r}"></div>
+      <div class="hl-body">
+        <div class="hl-region">${regionLabel}${mxStamp} · ${ev.nh || ""}</div>
+        <div class="hl-title">${ev.n}</div>
+        <div class="hl-date">${ev.de}</div>
+        <div class="hl-venue">${ev.v}</div>
+        <p class="hl-blurb">${ev.b}</p>
+      </div>
+    </a>
+  `;
+}
+
+function renderEmptyState() {
+  return `
+    <div class="empty-state">
+      <span class="empty-kicker">nada por aquí</span>
+      <h3>No events match these filters.</h3>
+      <p>Try removing a filter, clearing your search, or jumping to what's happening this month.</p>
+      <div class="empty-ctas">
+        <button onclick="clearAllFilters()">Clear all filters</button>
+        <button class="alt" onclick="setQuickFilter('month')">Show this month</button>
+      </div>
+    </div>
+  `;
+}
+
 // ============================================================
 // FILTER + RENDER
 // ============================================================
+function eventMatchesQuick(ev) {
+  if (!activeQuick) return true;
+  if (activeQuick === "anchor") return !!ev.a;
+  if (activeQuick === "free") return ev.t && ev.t.includes("free");
+  if (activeQuick === "weekend") {
+    const evDate = new Date(ev.d);
+    const weekFromToday = new Date(TODAY.getTime() + 7 * 86400000);
+    return evDate >= TODAY && evDate <= weekFromToday;
+  }
+  if (activeQuick === "month") {
+    const y = TODAY.getFullYear(), m = String(TODAY.getMonth() + 1).padStart(2, "0");
+    return ev.d && ev.d.startsWith(`${y}-${m}`);
+  }
+  return true;
+}
+
+function eventMatchesSearch(ev) {
+  if (!searchQuery) return true;
+  const q = searchQuery.toLowerCase();
+  return (
+    (ev.n && ev.n.toLowerCase().includes(q)) ||
+    (ev.v && ev.v.toLowerCase().includes(q)) ||
+    (ev.nh && ev.nh.toLowerCase().includes(q)) ||
+    (ev.b && ev.b.toLowerCase().includes(q))
+  );
+}
+
 function applyFilters() {
   const filtered = events.filter(ev => {
     const regionMatch = activeRegion === "all" || ev.r === activeRegion ||
       (activeRegion === "tec" && (ev.r === "tec" || ev.r === "pn"));
     const typeMatch = activeType === "all" || (ev.t && ev.t.includes(activeType));
     const monthMatch = activeMonth === "all" || (ev.d && ev.d.startsWith(activeMonth));
-    return regionMatch && typeMatch && monthMatch;
+    return regionMatch && typeMatch && monthMatch && eventMatchesQuick(ev) && eventMatchesSearch(ev);
   });
 
   const sorted = [...filtered].sort((a, b) => a.d.localeCompare(b.d));
-  document.getElementById("events-grid").innerHTML = sorted.map(renderCard).join("");
-  document.getElementById("results-count").textContent =
-    `${sorted.length} event${sorted.length !== 1 ? 's' : ''} matching your filters`;
+  const grid = document.getElementById("events-grid");
+  grid.innerHTML = sorted.length === 0 ? renderEmptyState() : sorted.map(renderCard).join("");
+  const total = sorted.length;
+  document.getElementById("results-count").innerHTML =
+    total > 0
+      ? `Showing <strong>${total}</strong> event${total !== 1 ? 's' : ''}`
+      : `<strong>0</strong> matches — try relaxing a filter`;
+
+  updateClearButton();
+  updateURL();
+}
+
+function updateClearButton() {
+  const anyActive = activeRegion !== "all" || activeType !== "all" || activeMonth !== "all" || activeQuick || searchQuery;
+  document.getElementById("clear-all").classList.toggle("visible", !!anyActive);
+}
+
+function clearAllFilters() {
+  activeRegion = "all";
+  activeType = "all";
+  activeMonth = "all";
+  activeQuick = null;
+  searchQuery = "";
+  document.getElementById("search-input").value = "";
+  document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === "all"));
+  document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === "all"));
+  document.querySelectorAll("#month-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.month === "all"));
+  document.querySelectorAll(".quick").forEach(b => b.classList.remove("active"));
+  applyFilters();
+}
+
+function setQuickFilter(q) {
+  if (activeQuick === q) {
+    activeQuick = null;
+  } else {
+    activeQuick = q;
+  }
+  document.querySelectorAll(".quick").forEach(b => b.classList.toggle("active", b.dataset.quick === activeQuick));
+  applyFilters();
+  document.getElementById("all-events-section").scrollIntoView({behavior: "smooth", block: "start"});
+}
+
+// URL hash state
+function updateURL() {
+  const parts = [];
+  if (activeRegion !== "all") parts.push(`r=${activeRegion}`);
+  if (activeType !== "all") parts.push(`t=${activeType}`);
+  if (activeMonth !== "all") parts.push(`m=${activeMonth}`);
+  if (activeQuick) parts.push(`q=${activeQuick}`);
+  if (searchQuery) parts.push(`s=${encodeURIComponent(searchQuery)}`);
+  const hash = parts.length ? `#${parts.join("&")}` : "";
+  if (window.location.hash !== hash) {
+    history.replaceState(null, "", window.location.pathname + window.location.search + hash);
+  }
+}
+
+function restoreFromURL() {
+  const hash = window.location.hash.replace(/^#/, "");
+  if (!hash) return;
+  hash.split("&").forEach(p => {
+    const [k, v] = p.split("=");
+    if (k === "r") activeRegion = v;
+    else if (k === "t") activeType = v;
+    else if (k === "m") activeMonth = v;
+    else if (k === "q") activeQuick = v;
+    else if (k === "s") searchQuery = decodeURIComponent(v || "");
+  });
+  document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === activeRegion));
+  document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === activeType));
+  document.querySelectorAll("#month-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.month === activeMonth));
+  document.querySelectorAll(".quick").forEach(b => b.classList.toggle("active", b.dataset.quick === activeQuick));
+  if (searchQuery) document.getElementById("search-input").value = searchQuery;
+  if (activeType !== "all") {
+    document.getElementById("more-filters").classList.add("open");
+    document.getElementById("more-filters-toggle").classList.add("open");
+  }
 }
 
 // ============================================================
@@ -687,6 +1013,53 @@ document.querySelectorAll("#month-filters .chip").forEach(btn => {
   });
 });
 
+// Search input
+document.getElementById("search-input").addEventListener("input", (e) => {
+  searchQuery = e.target.value.trim();
+  applyFilters();
+});
+
+// Quick filters
+document.querySelectorAll(".quick").forEach(btn => {
+  btn.addEventListener("click", () => setQuickFilter(btn.dataset.quick));
+});
+
+// Clear all
+document.getElementById("clear-all").addEventListener("click", clearAllFilters);
+
+// More filters toggle
+document.getElementById("more-filters-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("more-filters");
+  const toggle = document.getElementById("more-filters-toggle");
+  panel.classList.toggle("open");
+  toggle.classList.toggle("open");
+  toggle.setAttribute("aria-expanded", panel.classList.contains("open"));
+});
+
+// Footer region shortcuts
+document.querySelectorAll("[data-footer-region]").forEach(a => {
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    clearAllFilters();
+    activeRegion = a.dataset.footerRegion;
+    if (a.dataset.footerType) activeType = a.dataset.footerType;
+    document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === activeRegion));
+    if (a.dataset.footerType) {
+      document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === activeType));
+      document.getElementById("more-filters").classList.add("open");
+      document.getElementById("more-filters-toggle").classList.add("open");
+    }
+    applyFilters();
+    document.getElementById("all-events-section").scrollIntoView({behavior: "smooth"});
+  });
+});
+
+// Render headliners rail
+function renderHeadlinersRail() {
+  const anchors = events.filter(e => e.a).sort((a, b) => a.d.localeCompare(b.d));
+  document.getElementById("headliners-rail").innerHTML = anchors.map(renderHeadliner).join("");
+}
+
 // ============================================================
 // LEAFLET MAP
 // ============================================================
@@ -730,7 +1103,9 @@ L.polyline([[32.548, -117.125], [32.548, -116.8]], {
 // ============================================================
 document.getElementById("stat-events").textContent = events.length;
 document.getElementById("footer-count").textContent = events.length;
+renderHeadlinersRail();
 renderComingUp();
+restoreFromURL();
 applyFilters();
 </script>
 
