@@ -213,7 +213,7 @@
   .search-box input:focus { border-color: var(--terracotta); box-shadow: 0 0 0 3px rgba(199, 91, 58, 0.15); }
   .search-box input::placeholder { color: var(--ink-quiet); }
   .search-box::before { content: "🔍"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.5; }
-  .quick-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .quick-row { display: flex; gap: 8px; flex-wrap: wrap; max-width: 1400px; margin: 0 auto; padding: 6px 32px 12px; }
   .quick { padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border: 2px solid var(--terracotta); background: transparent; color: var(--terracotta-deep); border-radius: 2px; transition: background-color 150ms ease, color 150ms ease; min-height: 36px; }
   .quick:hover { background: var(--terracotta); color: var(--stucco); }
   .quick.active { background: var(--terracotta); color: var(--stucco); }
@@ -414,6 +414,92 @@
     .section-head-clean .section-title { font-size: 32px; }
     .footer-grid { text-align: center; }
   }
+
+  /* === MOBILE NAV: collapse sticky nav to one row + drawer === */
+  .mobile-filters-trigger { display: none; }
+
+  @media (max-width: 720px) {
+    /* Hero: shrink the decorative right block so users reach content faster */
+    .hero-right { min-height: 120px; }
+    .hero-left { padding: 36px 22px 44px; }
+    .hero-tagline { margin-bottom: 24px; }
+    .hero-stats { gap: 24px; }
+    .hero-ctas { margin-top: 24px; }
+
+    /* Sticky nav: only search row stays; rest moves into drawer */
+    .nav-utility {
+      padding: 10px 14px;
+      gap: 8px;
+      flex-wrap: nowrap;
+      align-items: center;
+    }
+    .search-box { flex: 1; min-width: 0; }
+    .search-box input { padding: 10px 14px 10px 38px; font-size: 15px; }
+    .search-box::before { left: 12px; }
+    .nav-utility .kbd-hint { display: none; }
+    .nav-utility .clear-btn { min-height: 44px; padding: 0 12px; font-size: 11px; }
+
+    /* Mobile-only Filters pill */
+    .mobile-filters-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 14px;
+      height: 44px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 2px solid var(--ink);
+      background: var(--ink);
+      color: var(--stucco);
+      border-radius: 2px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .mobile-filters-trigger .mft-caret { font-size: 10px; transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .sticky-nav.mobile-open .mobile-filters-trigger .mft-caret { transform: rotate(180deg); }
+    .mobile-filters-trigger .mft-count {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      line-height: 1.2;
+      min-width: 16px;
+      text-align: center;
+      letter-spacing: 0;
+    }
+    .mobile-filters-trigger .mft-count.hidden { display: none; }
+
+    /* Drawer: hidden by default on mobile, scrolls internally when open */
+    .mobile-filters-drawer {
+      display: none;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: var(--stucco);
+      border-top: 1px solid rgba(43, 24, 16, 0.12);
+    }
+    .sticky-nav.mobile-open .mobile-filters-drawer { display: block; }
+
+    /* Drawer interior: looser padding so chips don't crowd */
+    .mobile-filters-drawer .quick-row {
+      padding: 12px 16px 4px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .mobile-filters-drawer .filter-strip {
+      padding: 8px 16px;
+      gap: 8px;
+    }
+    .mobile-filters-drawer .filter-toggle { padding: 12px 16px; }
+    .mobile-filters-drawer #more-filters .filter-strip { padding-bottom: 18px; }
+  }
 </style>
 </head>
 <body>
@@ -454,11 +540,20 @@
 </section>
 
 <!-- STICKY FILTERS -->
-<nav class="sticky-nav">
+<nav class="sticky-nav" id="sticky-nav">
   <div class="nav-utility">
     <div class="search-box">
       <input type="search" id="search-input" placeholder="Search events, venues, neighborhoods…" autocomplete="off">
     </div>
+    <button class="mobile-filters-trigger" id="mobile-filters-trigger" aria-expanded="false" aria-controls="mobile-filters-drawer">
+      <span>Filters</span>
+      <span class="mft-count hidden" id="mft-count">0</span>
+      <span class="mft-caret" aria-hidden="true">▾</span>
+    </button>
+    <button class="clear-btn" id="clear-all">Clear all</button>
+    <span class="kbd-hint" style="display: none;" id="kbd-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+  </div>
+  <div class="mobile-filters-drawer" id="mobile-filters-drawer">
     <div class="quick-row">
       <button class="quick" data-quick="weekend">This weekend</button>
       <button class="quick" data-quick="month">This month</button>
@@ -466,51 +561,49 @@
       <button class="quick" data-quick="anchor">⭐ Headliners</button>
       <button class="quick" data-quick="saved">♥ Saved <span class="fav-count-badge hidden" id="fav-count">0</span></button>
     </div>
-    <button class="clear-btn" id="clear-all">Clear all</button>
-    <span class="kbd-hint" style="display: none;" id="kbd-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
-  </div>
-  <div class="filter-strip" id="region-filters">
-    <span class="filter-label">Where</span>
-    <button class="chip active" data-region="all">All</button>
-    <button class="chip" data-region="sd"><span class="dot sd"></span>San Diego</button>
-    <button class="chip" data-region="nc"><span class="dot nc"></span>North County</button>
-    <button class="chip" data-region="tj"><span class="dot tj"></span>Tijuana</button>
-    <button class="chip" data-region="ros"><span class="dot ros"></span>Rosarito</button>
-    <button class="chip" data-region="ens"><span class="dot ens"></span>Ensenada</button>
-    <button class="chip" data-region="valle"><span class="dot valle"></span>Valle de Guadalupe</button>
-    <button class="chip" data-region="tec"><span class="dot tec"></span>Tecate / Puerto Nuevo</button>
-  </div>
-  <div class="filter-strip" id="month-filters">
-    <span class="filter-label">When</span>
-    <button class="chip active" data-month="all">All</button>
-    <button class="chip" data-month="2026-04">Apr '26</button>
-    <button class="chip" data-month="2026-05">May '26</button>
-    <button class="chip" data-month="2026-06">Jun '26</button>
-    <button class="chip" data-month="2026-07">Jul '26</button>
-    <button class="chip" data-month="2026-08">Aug '26</button>
-    <button class="chip" data-month="2026-09">Sep '26</button>
-    <button class="chip" data-month="2026-10">Oct '26</button>
-    <button class="chip" data-month="2026-11">Nov '26</button>
-    <button class="chip" data-month="2026-12">Dec '26</button>
-    <button class="chip" data-month="2027-01">Jan '27</button>
-  </div>
-  <button class="filter-toggle" id="more-filters-toggle" aria-expanded="false">
-    <span>More filters · Type</span>
-    <span class="caret">▾</span>
-  </button>
-  <div id="more-filters">
-    <div class="filter-strip" id="type-filters" style="padding-top: 4px;">
-      <span class="filter-label">Type</span>
-      <button class="chip active" data-type="all">All</button>
-      <button class="chip" data-type="music">Music</button>
-      <button class="chip" data-type="festival">Festival</button>
-      <button class="chip" data-type="food">Food</button>
-      <button class="chip" data-type="wine">Wine</button>
-      <button class="chip" data-type="art">Art</button>
-      <button class="chip" data-type="cultural">Cultural</button>
-      <button class="chip" data-type="holiday">Holiday</button>
-      <button class="chip" data-type="neighborhood">Neighborhood</button>
-      <button class="chip" data-type="free">Free</button>
+    <div class="filter-strip" id="region-filters">
+      <span class="filter-label">Where</span>
+      <button class="chip active" data-region="all">All</button>
+      <button class="chip" data-region="sd"><span class="dot sd"></span>San Diego</button>
+      <button class="chip" data-region="nc"><span class="dot nc"></span>North County</button>
+      <button class="chip" data-region="tj"><span class="dot tj"></span>Tijuana</button>
+      <button class="chip" data-region="ros"><span class="dot ros"></span>Rosarito</button>
+      <button class="chip" data-region="ens"><span class="dot ens"></span>Ensenada</button>
+      <button class="chip" data-region="valle"><span class="dot valle"></span>Valle de Guadalupe</button>
+      <button class="chip" data-region="tec"><span class="dot tec"></span>Tecate / Puerto Nuevo</button>
+    </div>
+    <div class="filter-strip" id="month-filters">
+      <span class="filter-label">When</span>
+      <button class="chip active" data-month="all">All</button>
+      <button class="chip" data-month="2026-04">Apr '26</button>
+      <button class="chip" data-month="2026-05">May '26</button>
+      <button class="chip" data-month="2026-06">Jun '26</button>
+      <button class="chip" data-month="2026-07">Jul '26</button>
+      <button class="chip" data-month="2026-08">Aug '26</button>
+      <button class="chip" data-month="2026-09">Sep '26</button>
+      <button class="chip" data-month="2026-10">Oct '26</button>
+      <button class="chip" data-month="2026-11">Nov '26</button>
+      <button class="chip" data-month="2026-12">Dec '26</button>
+      <button class="chip" data-month="2027-01">Jan '27</button>
+    </div>
+    <button class="filter-toggle" id="more-filters-toggle" aria-expanded="false">
+      <span>More filters · Type</span>
+      <span class="caret">▾</span>
+    </button>
+    <div id="more-filters">
+      <div class="filter-strip" id="type-filters" style="padding-top: 4px;">
+        <span class="filter-label">Type</span>
+        <button class="chip active" data-type="all">All</button>
+        <button class="chip" data-type="music">Music</button>
+        <button class="chip" data-type="festival">Festival</button>
+        <button class="chip" data-type="food">Food</button>
+        <button class="chip" data-type="wine">Wine</button>
+        <button class="chip" data-type="art">Art</button>
+        <button class="chip" data-type="cultural">Cultural</button>
+        <button class="chip" data-type="holiday">Holiday</button>
+        <button class="chip" data-type="neighborhood">Neighborhood</button>
+        <button class="chip" data-type="free">Free</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -1139,6 +1232,19 @@ function applyFilters() {
 function updateClearButton() {
   const anyActive = activeRegion !== "all" || activeType !== "all" || activeMonth !== "all" || activeQuick || searchQuery;
   document.getElementById("clear-all").classList.toggle("visible", !!anyActive);
+  updateMobileFilterCount();
+}
+
+function updateMobileFilterCount() {
+  const count =
+    (activeRegion !== "all" ? 1 : 0) +
+    (activeType !== "all" ? 1 : 0) +
+    (activeMonth !== "all" ? 1 : 0) +
+    (activeQuick ? 1 : 0);
+  const badge = document.getElementById("mft-count");
+  if (!badge) return;
+  badge.textContent = count;
+  badge.classList.toggle("hidden", count === 0);
 }
 
 function clearAllFilters() {
@@ -1285,6 +1391,14 @@ document.getElementById("more-filters-toggle").addEventListener("click", () => {
   panel.classList.toggle("open");
   toggle.classList.toggle("open");
   toggle.setAttribute("aria-expanded", panel.classList.contains("open"));
+});
+
+// Mobile filters drawer toggle (only relevant ≤720px)
+document.getElementById("mobile-filters-trigger").addEventListener("click", () => {
+  const nav = document.getElementById("sticky-nav");
+  const trigger = document.getElementById("mobile-filters-trigger");
+  const isOpen = nav.classList.toggle("mobile-open");
+  trigger.setAttribute("aria-expanded", isOpen);
 });
 
 // Footer region shortcuts
