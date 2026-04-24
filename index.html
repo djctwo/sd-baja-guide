@@ -436,7 +436,7 @@
     .search-box { flex: 1; min-width: 0; }
     .search-box input { padding: 10px 14px 10px 38px; font-size: 15px; }
     .search-box::before { left: 12px; }
-    .nav-utility .kbd-hint { display: none; }
+    .nav-utility .kbd-hint { display: none !important; }
     .nav-utility .clear-btn { min-height: 44px; padding: 0 12px; font-size: 11px; }
 
     /* Mobile-only Filters pill */
@@ -499,6 +499,208 @@
     }
     .mobile-filters-drawer .filter-toggle { padding: 12px 16px; }
     .mobile-filters-drawer #more-filters .filter-strip { padding-bottom: 18px; }
+
+    /* Task 6: bump drawer touch targets to 44px */
+    .mobile-filters-drawer .chip { min-height: 44px; padding: 10px 14px; }
+    .mobile-filters-drawer .quick { min-height: 44px; padding: 10px 16px; }
+
+    /* Task 4: replace decorative hero-right with a thin accent band */
+    .hero-right { display: none; }
+    .hero-left {
+      padding: 28px 22px 40px;
+      position: relative;
+    }
+    .hero-left::before {
+      content: "";
+      display: block;
+      height: 6px;
+      width: 72px;
+      background: var(--terracotta);
+      margin-bottom: 22px;
+      box-shadow: 4px 4px 0 var(--cobalt);
+    }
+    .hero-rule { display: none; }
+    .hero-title { font-size: clamp(52px, 13vw, 76px); line-height: 0.9; }
+    .hero-tagline { font-size: 15px; margin-bottom: 20px; }
+    .hero-stats { gap: 20px; }
+    .hero-stats .stat-num { font-size: 28px; }
+    .hero-ctas { margin-top: 22px; gap: 10px; }
+
+    /* Task 7: trim card shadow so it doesn't overflow 375px viewports, tighten padding */
+    .event-card { box-shadow: 0 1px 0 rgba(43, 24, 16, 0.1), 6px 6px 0 -2px var(--shadow); }
+    .event-card:hover { box-shadow: 0 1px 0 rgba(43, 24, 16, 0.1), 8px 8px 0 -2px var(--shadow); }
+    .card-body { padding: 22px 22px 20px; }
+    .card-title { font-size: 24px; }
+    .headliner-card { box-shadow: 6px 6px 0 -2px rgba(0,0,0,0.4); }
+
+    /* Task 1: headliners → horizontal swipe rail on mobile */
+    .headliners { padding: 48px 0 40px; }
+    .headliners .section-head-clean,
+    .headliners .section-divider { padding-left: 20px; padding-right: 20px; }
+    .headliners-rail {
+      grid-template-columns: none !important;
+      display: flex;
+      overflow-x: auto;
+      overflow-y: visible;
+      scroll-snap-type: x mandatory;
+      gap: 14px;
+      padding: 6px 20px 20px;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 20px;
+    }
+    .headliners-rail .headliner-card {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+      margin-bottom: 0;
+    }
+    .headliners-rail::-webkit-scrollbar { height: 6px; }
+    .headliners-rail::-webkit-scrollbar-track { background: rgba(245,235,208,0.12); border-radius: 3px; }
+    .headliners-rail::-webkit-scrollbar-thumb { background: var(--sun); border-radius: 3px; }
+    .headliners-swipe-hint {
+      display: block;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: var(--sun);
+      opacity: 0.6;
+      margin: -12px 0 12px;
+    }
+  }
+  @media (min-width: 721px) {
+    .headliners-swipe-hint { display: none; }
+  }
+
+  /* Task 3: month dividers in the event grid (visible both desktop + mobile) */
+  .month-divider {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 0 16px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(24px, 3.5vw, 34px);
+    letter-spacing: -0.015em;
+    color: var(--terracotta-deep);
+  }
+  .month-divider:first-child { padding-top: 0; }
+  .month-divider::before,
+  .month-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(43, 24, 16, 0.2);
+  }
+
+  /* Task 2: map collapsible on mobile */
+  .map-toggle { display: none; }
+  @media (max-width: 720px) {
+    .map-wrap { padding: 40px 0; }
+    .map-wrap > div:last-child { padding: 0 20px !important; }
+    .map-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px auto 0;
+      padding: 0 22px;
+      height: 44px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 2px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .map-toggle:active { transform: translateY(1px); }
+    .map-toggle .caret { font-size: 10px; transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .map-toggle.open .caret { transform: rotate(180deg); }
+    .map-collapsible { display: none; margin-top: 20px; }
+    .map-collapsible.open { display: block; }
+    #leaflet-map { height: 360px; }
+  }
+
+  /* Task 5: active filter chips bar (mobile, drawer closed only) */
+  .active-filters-bar { display: none; }
+  @media (max-width: 720px) {
+    .active-filters-bar {
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 8px 14px 10px;
+      background: var(--stucco);
+      border-bottom: 1px solid rgba(43, 24, 16, 0.1);
+      position: sticky;
+      top: 64px;
+      z-index: 39;
+    }
+    .active-filters-bar.has-filters { display: flex; }
+    .sticky-nav.mobile-open + .active-filters-bar { display: none; }
+  }
+  .active-filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--ink);
+    color: var(--stucco);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 4px 4px 10px;
+    border-radius: 2px;
+    line-height: 1.2;
+  }
+  .active-filter-pill button {
+    background: transparent;
+    border: none;
+    color: var(--stucco);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 6px;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 150ms ease;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  .active-filter-pill button:hover { opacity: 1; }
+
+  /* Task 8: collapse "How to use it" list behind Show tips on mobile */
+  .intro-tips > summary { display: none; }
+  @media (min-width: 721px) {
+    .intro-tips > .intro-list { display: grid !important; }
+  }
+  @media (max-width: 720px) {
+    .intro-tips > summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      height: 44px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      cursor: pointer;
+      border: 2px solid rgba(43, 24, 16, 0.18);
+      border-radius: 2px;
+      list-style: none;
+      margin-top: 6px;
+    }
+    .intro-tips > summary::-webkit-details-marker { display: none; }
+    .intro-tips > summary::after { content: "▾"; font-size: 10px; margin-left: 2px; transition: transform 200ms ease; }
+    .intro-tips[open] > summary::after { transform: rotate(180deg); }
+    .intro-tips[open] > summary { border-color: var(--ink); color: var(--ink); }
+    .intro-tips:not([open]) > .intro-list { display: none; }
+    .intro-tips[open] > .intro-list { margin-top: 18px; }
+    .intro { padding: 48px 22px 56px; }
+    .intro::after { display: none; }
   }
 </style>
 </head>
@@ -607,6 +809,7 @@
     </div>
   </div>
 </nav>
+<div class="active-filters-bar" id="active-filters-bar" role="region" aria-label="Active filters"></div>
 
 <!-- INTRO / ABOUT -->
 <section class="intro">
@@ -618,14 +821,17 @@
     </div>
     <div class="intro-col">
       <h3>How to <em>use it</em></h3>
-      <ul class="intro-list">
-        <li><strong>Search</strong> Type a venue, neighborhood, or artist in the box above.</li>
-        <li><strong>Where</strong> Filter by region — San Diego, North County, or one of four Baja cities.</li>
-        <li><strong>When</strong> Pick a month, or try "This weekend" for what's close.</li>
-        <li><strong>Save</strong> Tap the ♡ heart on any card to save it. Your list stays on this device.</li>
-        <li><strong>Baja</strong> Any card with a 🛂 stamp needs a border crossing. SENTRI recommended.</li>
-        <li><strong>Vendimia</strong> 17 individual winery celebrations through August in the Valle — filter by Wine to see them all.</li>
-      </ul>
+      <details class="intro-tips">
+        <summary>Show tips</summary>
+        <ul class="intro-list">
+          <li><strong>Search</strong> Type a venue, neighborhood, or artist in the box above.</li>
+          <li><strong>Where</strong> Filter by region — San Diego, North County, or one of four Baja cities.</li>
+          <li><strong>When</strong> Pick a month, or try "This weekend" for what's close.</li>
+          <li><strong>Save</strong> Tap the ♡ heart on any card to save it. Your list stays on this device.</li>
+          <li><strong>Baja</strong> Any card with a 🛂 stamp needs a border crossing. SENTRI recommended.</li>
+          <li><strong>Vendimia</strong> 17 individual winery celebrations through August in the Valle — filter by Wine to see them all.</li>
+        </ul>
+      </details>
     </div>
   </div>
 </section>
@@ -656,15 +862,21 @@
     <h2 class="section-title">The <em>Region</em>, Plotted</h2>
     <div class="section-bilingual">From La Jolla to the Valle de Guadalupe</div>
   </div>
-  <div style="max-width: 1100px; margin: 0 auto; padding: 0 32px;">
-    <div id="leaflet-map"></div>
-    <div class="map-legend">
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--cobalt)"></span> San Diego</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--sun)"></span> North County</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--pink)"></span> Tijuana</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--terracotta)"></span> Rosarito</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--pink-deep)"></span> Ensenada</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--olive)"></span> Valle de Guadalupe</div>
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 32px; text-align: center;">
+    <button class="map-toggle" id="map-toggle" aria-expanded="false" aria-controls="map-collapsible">
+      <span class="map-toggle-label">Show map</span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </button>
+    <div class="map-collapsible" id="map-collapsible">
+      <div id="leaflet-map"></div>
+      <div class="map-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--cobalt)"></span> San Diego</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--sun)"></span> North County</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--pink)"></span> Tijuana</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--terracotta)"></span> Rosarito</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--pink-deep)"></span> Ensenada</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--olive)"></span> Valle de Guadalupe</div>
+      </div>
     </div>
   </div>
 </section>
@@ -691,6 +903,7 @@
     <h2 class="section-title">The <em>Headliners</em></h2>
     <div class="section-bilingual">The 20 can't-miss events of the year</div>
   </div>
+  <span class="headliners-swipe-hint" aria-hidden="true">← swipe →</span>
   <div class="headliners-rail" id="headliners-rail"></div>
 </section>
 
@@ -1138,6 +1351,35 @@ function renderHeadliner(ev) {
   `;
 }
 
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MONTH_SHORT = {
+  "2026-04":"Apr '26","2026-05":"May '26","2026-06":"Jun '26","2026-07":"Jul '26",
+  "2026-08":"Aug '26","2026-09":"Sep '26","2026-10":"Oct '26","2026-11":"Nov '26",
+  "2026-12":"Dec '26","2027-01":"Jan '27"
+};
+const REGION_SHORT = {sd:"San Diego",nc:"North County",tj:"Tijuana",ros:"Rosarito",ens:"Ensenada",valle:"Valle de Guadalupe",tec:"Tecate/PN"};
+const QUICK_LABELS = {weekend:"This weekend",month:"This month",free:"Free",anchor:"⭐ Headliners",saved:"♥ Saved"};
+
+function renderMonthDivider(ym) {
+  const [year, month] = ym.split("-");
+  return `<div class="month-divider">${MONTH_NAMES[parseInt(month, 10) - 1]} ${year}</div>`;
+}
+
+function renderActiveFilterBar() {
+  const bar = document.getElementById("active-filters-bar");
+  if (!bar) return;
+  const pills = [];
+  if (activeRegion !== "all") pills.push({kind:"region", label: REGION_SHORT[activeRegion] || activeRegion});
+  if (activeMonth !== "all") pills.push({kind:"month", label: MONTH_SHORT[activeMonth] || activeMonth});
+  if (activeType !== "all") pills.push({kind:"type", label: activeType.charAt(0).toUpperCase() + activeType.slice(1)});
+  if (activeQuick) pills.push({kind:"quick", label: QUICK_LABELS[activeQuick] || activeQuick});
+  if (searchQuery) pills.push({kind:"search", label: `"${searchQuery.length > 18 ? searchQuery.slice(0,18)+"…" : searchQuery}"`});
+  bar.innerHTML = pills.map(p =>
+    `<span class="active-filter-pill">${p.label}<button type="button" aria-label="Remove ${p.label} filter" data-kind="${p.kind}">✕</button></span>`
+  ).join("");
+  bar.classList.toggle("has-filters", pills.length > 0);
+}
+
 function renderEmptyState() {
   if (activeQuick === "saved") {
     return `
@@ -1218,7 +1460,18 @@ function applyFilters() {
         <button class="back-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Back to top</button>
       </div>
     `;
-    grid.innerHTML = sorted.map(renderCard).join("") + endMarker;
+    let currentMonth = "";
+    const parts = [];
+    sorted.forEach(ev => {
+      const evMonth = ev.d.substring(0, 7);
+      if (evMonth !== currentMonth) {
+        parts.push(renderMonthDivider(evMonth));
+        currentMonth = evMonth;
+      }
+      parts.push(renderCard(ev));
+    });
+    parts.push(endMarker);
+    grid.innerHTML = parts.join("");
   }
   document.getElementById("results-count").innerHTML =
     total > 0
@@ -1233,6 +1486,7 @@ function updateClearButton() {
   const anyActive = activeRegion !== "all" || activeType !== "all" || activeMonth !== "all" || activeQuick || searchQuery;
   document.getElementById("clear-all").classList.toggle("visible", !!anyActive);
   updateMobileFilterCount();
+  renderActiveFilterBar();
 }
 
 function updateMobileFilterCount() {
@@ -1399,6 +1653,43 @@ document.getElementById("mobile-filters-trigger").addEventListener("click", () =
   const trigger = document.getElementById("mobile-filters-trigger");
   const isOpen = nav.classList.toggle("mobile-open");
   trigger.setAttribute("aria-expanded", isOpen);
+});
+
+// Active filter chip removal
+document.getElementById("active-filters-bar").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-kind]");
+  if (!btn) return;
+  const kind = btn.dataset.kind;
+  if (kind === "region") {
+    activeRegion = "all";
+    document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === "all"));
+  } else if (kind === "month") {
+    activeMonth = "all";
+    document.querySelectorAll("#month-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.month === "all"));
+  } else if (kind === "type") {
+    activeType = "all";
+    document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === "all"));
+  } else if (kind === "quick") {
+    activeQuick = null;
+    document.querySelectorAll(".quick").forEach(b => b.classList.remove("active"));
+  } else if (kind === "search") {
+    searchQuery = "";
+    document.getElementById("search-input").value = "";
+  }
+  applyFilters();
+});
+
+// Map toggle (mobile only — button is hidden on desktop)
+document.getElementById("map-toggle").addEventListener("click", () => {
+  const btn = document.getElementById("map-toggle");
+  const panel = document.getElementById("map-collapsible");
+  const isOpen = panel.classList.toggle("open");
+  btn.classList.toggle("open", isOpen);
+  btn.setAttribute("aria-expanded", isOpen);
+  btn.querySelector(".map-toggle-label").textContent = isOpen ? "Hide map" : "Show map";
+  if (isOpen && typeof map !== "undefined" && map.invalidateSize) {
+    setTimeout(() => map.invalidateSize(), 60);
+  }
 });
 
 // Footer region shortcuts
