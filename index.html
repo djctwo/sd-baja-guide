@@ -286,6 +286,51 @@
   .results-count-clean { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-quiet); text-align: center; margin-bottom: 28px; }
   .results-count-clean strong { color: var(--terracotta-deep); font-weight: 700; }
 
+  /* === GRID SHORTCUTS — discoverable filter chips at the events section head === */
+  .grid-shortcuts {
+    text-align: center;
+    margin: -16px auto 28px;
+    padding: 0 32px;
+    max-width: 820px;
+  }
+  .grid-shortcuts-prompt {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--pink);
+    margin: 0 0 14px;
+    line-height: 1.2;
+  }
+  .grid-shortcuts-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .grid-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 38px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+  }
+  .grid-chip:hover { background: var(--ink); color: var(--stucco); }
+  .grid-chip:active { transform: translateY(1px); }
+  @media (max-width: 720px) {
+    .grid-shortcuts { padding: 0 16px; margin: -8px auto 20px; }
+    .grid-shortcuts-prompt { font-size: 20px; }
+    .grid-chip { height: 44px; padding: 0 14px; font-size: 11px; }
+  }
+
   /* === EXPANDED FOOTER === */
   .footer-grid { max-width: 1200px; margin: 0 auto 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 36px; text-align: left; }
   .footer-col h4 { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--sun); margin-bottom: 14px; }
@@ -914,6 +959,19 @@
     <span class="section-kicker">la colección completa</span>
     <h2 class="section-title">Every <em>Event</em></h2>
     <div class="section-bilingual">Chronological · April 2026 → January 2027</div>
+  </div>
+  <div class="grid-shortcuts" id="grid-shortcuts">
+    <p class="grid-shortcuts-prompt">200+ events ahead — narrow it down:</p>
+    <div class="grid-shortcuts-chips">
+      <button class="grid-chip" data-shortcut="region:sd">San Diego</button>
+      <button class="grid-chip" data-shortcut="region:nc">North County</button>
+      <button class="grid-chip" data-shortcut="region:valle">Valle</button>
+      <button class="grid-chip" data-shortcut="type:music">Music</button>
+      <button class="grid-chip" data-shortcut="type:wine">Wine</button>
+      <button class="grid-chip" data-shortcut="type:free">Free</button>
+      <button class="grid-chip" data-shortcut="quick:anchor">⭐ Headliners</button>
+      <button class="grid-chip" data-shortcut="quick:saved">♥ Saved</button>
+    </div>
   </div>
   <div class="results-count-clean" id="results-count"></div>
   <div class="grid" id="events-grid"></div>
@@ -1677,6 +1735,28 @@ document.getElementById("active-filters-bar").addEventListener("click", (e) => {
     document.getElementById("search-input").value = "";
   }
   applyFilters();
+});
+
+// Grid shortcut chips at events section head
+document.querySelectorAll(".grid-chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const [kind, value] = btn.dataset.shortcut.split(":");
+    clearAllFilters();
+    if (kind === "region") {
+      activeRegion = value;
+      document.querySelectorAll("#region-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.region === value));
+    } else if (kind === "type") {
+      activeType = value;
+      document.querySelectorAll("#type-filters .chip").forEach(b => b.classList.toggle("active", b.dataset.type === value));
+      document.getElementById("more-filters").classList.add("open");
+      document.getElementById("more-filters-toggle").classList.add("open");
+    } else if (kind === "quick") {
+      setQuickFilter(value);
+      return; // setQuickFilter calls applyFilters itself
+    }
+    applyFilters();
+    document.getElementById("all-events-section").scrollIntoView({behavior: "smooth", block: "start"});
+  });
 });
 
 // Map toggle (mobile only — button is hidden on desktop)
